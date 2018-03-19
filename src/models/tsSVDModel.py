@@ -76,8 +76,7 @@ class SVDModel:
             i = 0
             j = 0
             while (i < matrixDim1):
-                U[i*eachTSRows : (i+1)*eachTSRows, :] = self.Uk[j*self.N : (j+1)*self.N - 1, : ] 
-                #print(i*eachTSRows, (i+1)*eachTSRows, j*self.N, (j+1)*self.N - 1)
+                U[i : i+ eachTSRows, :] = self.Uk[j : j + self.N - 1, : ] 
 
                 i += eachTSRows
                 j += self.N
@@ -98,10 +97,11 @@ class SVDModel:
         dataDict = {}
         rowIndex = 0
         for key in self.otherSeriesKeysArray:
-            dataDict.update({key: self.matrix[rowIndex*single_ts_rows: (rowIndex+1)*single_ts_rows, :].flatten('F')})
-            rowIndex += single_ts_rows
 
-        dataDict.update({self.seriesToPredictKey: self.matrix.flatten('F')})
+            dataDict.update({key: self.matrix[rowIndex*single_ts_rows: (rowIndex+1)*single_ts_rows, :].flatten('F')})
+            rowIndex += 1
+
+        dataDict.update({self.seriesToPredictKey: self.matrix[rowIndex*single_ts_rows: (rowIndex+1)*single_ts_rows, :].flatten('F')})
 
         return pd.DataFrame(data=dataDict)
 
@@ -164,19 +164,21 @@ class SVDModel:
 
 
 
-    # keyToSeriesDFNew:     (Pandas dataframe) needs to contain all keys provided in the model;
+    # otherKeysToSeriesDFNew:     (Pandas dataframe) needs to contain all keys provided in the model;
     #                           If includePastDataOnly was set to True (default) in the model, then:
     #                               each series/array MUST be of length >= self.N - 1
     #                               If longer than self.N - 1, then the most recent self.N - 1 points will be used
     #                           If includePastDataOnly was set to False in the model, then:
     #                               all series/array except seriesToPredictKey MUST be of length >= self.N (i.e. includes the current), 
     #                               If longer than self.N, then the most recent self.N points will be used
-    #                               NOTE: seriesToPredictKey which will always be self.N - 1 (past)     
+    #
+    # predictKeyToSeriesDFNew:   (Pandas dataframe) needs to contain the seriesToPredictKey and self.N - 1 points past points.
+    #                           If more points are provided, the most recent self.N - 1 points are selected.   
     #
     # bypassChecks:         (Boolean) if this is set to True, then it is the callee's responsibility to provide
     #                           all required series of appropriate lengths (see above).
     #                           It is advised to leave this set to False (default).         
-    def predict(self, keyToSeriesDFNew, bypassChecks=False):
+    def predict(self, otherKeysToSeriesDFNew, predictKeyToSeriesDFNew, bypassChecks=False):
 
         nbrPointsNeeded = self.N - 1
         if (self.includePastDataOnly == False):
@@ -187,29 +189,27 @@ class SVDModel:
             if (self.weights is None):
                 raise Exception('Before predict() you need to call "fit()" on the model.')
 
-            setAllKeys = set(self.otherSeriesKeysArray)
-            setAllKeys.add(self.seriesToPredictKey)
-
-            if (len(set(keyToSeriesDFNew.columns.values).intersection(setAllKeys)) != len(setAllKeys)):
+            if (len(set(otherKeysToSeriesDFNew.columns.values).intersection(set(self.otherSeriesKeysArray))) < len(set(self.otherSeriesKeysArray))):
                 raise Exception('keyToSeriesDFNew does not contain ALL keys provided in the constructor.')
 
             for key in self.otherSeriesKeysArray:
-                points = len(keyToSeriesDFNew[key])
+                points = len(otherKeysToSeriesDFNew[key])
                 if (points < nbrPointsNeeded):
                     raise Exception('Series (%s) must have length >= %d' %(key, nbrPointsNeeded))
 
-            points = len(keyToSeriesDFNew[self.seriesToPredictKey])
+            points = len(predictKeyToSeriesDFNew[self.seriesToPredictKey])
             if (points < self.N - 1):
                 raise Exception('Series (%s) must have length >= %d' %(self.seriesToPredictKey, self.N - 1))
 
         newDataArray = np.zeros((len(self.otherSeriesKeysArray) * nbrPointsNeeded) + self.N - 1)
         indexArray = 0
         for key in self.otherSeriesKeysArray:
-            newDataArray[indexArray: indexArray + nbrPointsNeeded] = keyToSeriesDFNew[key][-1*nbrPointsNeeded:].values
+            newDataArray[indexArray: indexArray + nbrPointsNeeded] = otherKeysToSeriesDFNew[key][0:nbrPointsNeeded].values
 
             indexArray += nbrPointsNeeded
 
-        newDataArray[indexArray:] = keyToSeriesDFNew[self.seriesToPredictKey][-1*(self.N - 1):].values
+        # at last fill in the time series of interest
+        newDataArray[indexArray:] = predictKeyToSeriesDFNew[self.seriesToPredictKey][0: self.N - 1].values
 
         # dot product
         return np.dot(self.weights, newDataArray)

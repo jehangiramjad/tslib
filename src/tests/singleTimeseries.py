@@ -1,8 +1,8 @@
-######################################################
+#############################################################
 #
-# Some tests
+# Single-Dimensional Time Series Imputation and Forecasting
 #
-######################################################
+#############################################################
 
 import sys, os
 sys.path.append("..")
@@ -18,8 +18,6 @@ import data.generateTrend as gT
 import data.generateARMA as gA
 from  models.tsSVDModel import SVDModel
 import tsUtils
-
-
 
 
 def armaDataTest(timeSteps):
@@ -71,11 +69,14 @@ def harmonicDataTest(timeSteps):
     return data
 
 
+
+
+# test for a single time series imputation and forecasting
 def testSingleTS():
 
     print("------------------- Test # 1 (Single TS). ------------------------")
-    p = 0.8
-    N = 100
+    p = 1.0
+    N = 50
     M = 400
     timeSteps = N*M
     
@@ -168,7 +169,7 @@ def testSingleTS():
             pastPoints[j:] = testDF[key1].values[i - (N - 1) + j:i] 
 
         keyToSeriesDFNew = pd.DataFrame(data={key1: pastPoints})
-        prediction = mod.predict(keyToSeriesDFNew, bypassChecks=False)
+        prediction = mod.predict(pd.DataFrame(data={}), keyToSeriesDFNew, bypassChecks=False)
         forecastArray.append(prediction)
 
     print(" RMSE (prediction vs mean) = %f" %tsUtils.rmse(meanTestDF[key1].values, forecastArray))
