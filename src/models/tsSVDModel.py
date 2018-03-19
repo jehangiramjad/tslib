@@ -109,8 +109,7 @@ class SVDModel:
     # keyToSeriesDictionary: (Pandas dataframe) a key-value Series (time series)
     # Note that the keys provided in the constructor MUST all be present
     # The values must be all numpy arrays of floats.
-    # This function sets the "de-noised" and imputed data matrix which can be accessed by the .matrix attribute
-    # NOTE: ensure that all timeseries in keyToSeriesDF are normalized to lie between [-1, 1].
+    # This function sets the "de-noised" and imputed data matrix which can be accessed by the .matrix property
     def fit(self, keyToSeriesDF):
 
         setAllKeys = set(self.otherSeriesKeysArray)
@@ -119,10 +118,7 @@ class SVDModel:
         if (len(set(keyToSeriesDF.columns.values).intersection(setAllKeys)) != len(setAllKeys)):
             raise Exception('keyToSeriesDF does not contain ALL keys provided in the constructor.')
 
-        #if ((np.nanmax(keyToSeriesDF) > 1.0) | (np.nanmin(keyToSeriesDF) < -1.0)):
-        #    raise Exception('All time series must lie within [-1, 1]')
-
-        # impute with the least informative value
+        # impute with the least informative value (middle)
         max = np.nanmax(keyToSeriesDF)
         min = np.nanmin(keyToSeriesDF)
         diff = 0.5*(min + max)
@@ -204,12 +200,12 @@ class SVDModel:
         newDataArray = np.zeros((len(self.otherSeriesKeysArray) * nbrPointsNeeded) + self.N - 1)
         indexArray = 0
         for key in self.otherSeriesKeysArray:
-            newDataArray[indexArray: indexArray + nbrPointsNeeded] = otherKeysToSeriesDFNew[key][0:nbrPointsNeeded].values
+            newDataArray[indexArray: indexArray + nbrPointsNeeded] = otherKeysToSeriesDFNew[key][-1*nbrPointsNeeded: ].values
 
             indexArray += nbrPointsNeeded
 
         # at last fill in the time series of interest
-        newDataArray[indexArray:] = predictKeyToSeriesDFNew[self.seriesToPredictKey][0: self.N - 1].values
+        newDataArray[indexArray:] = predictKeyToSeriesDFNew[self.seriesToPredictKey][-1*(self.N - 1):].values
 
         # dot product
         return np.dot(self.weights, newDataArray)
