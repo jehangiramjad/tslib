@@ -16,11 +16,10 @@ import tsUtils
 
 class SVDModel:
 
-
     # seriesToPredictKey:       (string) the time series of interest (key)
     # kSingularValuesToKeep:    (int) the number of singular values to retain
     # N:                        (int) the number of rows of the matrix for each series
-    # M:                        (int) the number of columns for the amtrix for each series
+    # M:                        (int) the number of columns for the matrix for each series
     # probObservation:          (float) the independent probability of observation of each entry in the matrix
     # svdMethod:                (string) the SVD method to use (optional)
     # otherSeriesKeysArray:     (array) an array of keys for other series which will be used to predict 
@@ -49,8 +48,6 @@ class SVDModel:
         self.p = probObservation
 
         self.weights = None
-        self.div = 1.0
-        self.diff = 0.0
 
     # run a least-squares regression of the last row of self.matrix and all other rows of self.matrix
     # sets and returns the weights

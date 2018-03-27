@@ -71,7 +71,7 @@ def unnormalize(array, max, min):
     return array
 
 
-def randomlyHideValues(array, pObservation, N):
+def randomlyHideValues(array, pObservation):
 
     count = 0
     for i in range(0, len(array)):

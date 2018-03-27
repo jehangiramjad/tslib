@@ -117,7 +117,7 @@ def testSingleTS():
     meanTrainData = meanTS[0:trainPoints] # this is only needed for various statistical comparisons later
 
     # randomly hide training data
-    (trainData, pObservation) = tsUtils.randomlyHideValues(copy.deepcopy(trainDataMaster), p, N)
+    (trainData, pObservation) = tsUtils.randomlyHideValues(copy.deepcopy(trainDataMaster), p)
 
     # interpolating Nans with linear interpolation
     trainData = tsUtils.nanInterpolateHelper(trainData)
@@ -196,6 +196,4 @@ def main():
     print("*******************************************************")
 
 if __name__ == "__main__":
-
-
     main()

@@ -130,9 +130,9 @@ def testMultipleTS():
     meanTrainData = meanTS[0:trainPoints] # this is only needed for various statistical comparisons later
 
     # randomly hide training data
-    (trainData, pObservation) = tsUtils.randomlyHideValues(copy.deepcopy(trainDataMaster), p, N)
-    (trainData2, pObservation) = tsUtils.randomlyHideValues(copy.deepcopy(trainDataMaster2), p, N)
-    (trainData3, pObservation) = tsUtils.randomlyHideValues(copy.deepcopy(trainDataMaster3), p, N)
+    (trainData, pObservation) = tsUtils.randomlyHideValues(copy.deepcopy(trainDataMaster), p)
+    (trainData2, pObservation) = tsUtils.randomlyHideValues(copy.deepcopy(trainDataMaster2), p)
+    (trainData3, pObservation) = tsUtils.randomlyHideValues(copy.deepcopy(trainDataMaster3), p)
 
     # once we have interpolated, pObservation should be set back to 1.0
     pObservation = 1.0
