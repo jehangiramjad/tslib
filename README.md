@@ -1,4 +1,4 @@
-# tslib
+# tslib - A Time Series Library
 Time Series Forecasting and Imputation
 
 Work under progress and based on this work: Time Series Analysis via Matrix Estimation (https://arxiv.org/pdf/1802.09064.pdf). 
