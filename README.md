@@ -12,3 +12,7 @@ sklearn
 pymf (included within the project)
 
 Supported for Python 3+.
+
+# Robust Synthetic Control
+
+This library also has an implementation for Robust Synthetic Control as detailed in https://arxiv.org/abs/1711.06940
