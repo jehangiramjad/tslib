@@ -5,8 +5,8 @@
 # You need to ensure that this script is called from
 # the tslib/ parent directory or tslib/tests/ directory:
 #
-# 1. python tests/singleTimeseries.py
-# 2. python singleTimeseries.py
+# 1. python tests/testScriptSingleTimeseries.py
+# 2. python testScriptSingleTimeseries.py
 #
 #############################################################
 import sys, os
