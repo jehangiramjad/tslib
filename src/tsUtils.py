@@ -3,10 +3,6 @@
 # Utility functions
 #
 ######################################################
-import sys, os
-sys.path.append("..")
-sys.path.append(os.getcwd())
-
 import numpy as np
 from sklearn.metrics import mean_squared_error
 import copy

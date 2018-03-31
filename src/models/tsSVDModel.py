@@ -3,16 +3,12 @@
 # The Time Series Model based on SVD
 #
 ######################################################
-import sys, os
-sys.path.append("..")
-sys.path.append(os.getcwd())
-
 import copy
 import numpy as np
 import pandas as pd
-from algorithms.svdWrapper import SVDWrapper as SVD
+from tslib.src.algorithms.svdWrapper import SVDWrapper as SVD
 
-import tsUtils
+from tslib.src import tsUtils
 
 class SVDModel:
 

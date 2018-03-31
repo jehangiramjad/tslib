@@ -5,15 +5,11 @@
 # Implementation based on: https://arxiv.org/abs/1711.06940
 #
 ################################################################
-import sys, os
-sys.path.append("..")
-sys.path.append(os.getcwd())
-
 import numpy as np
 import pandas as pd
 
-from  models.tsSVDModel import SVDModel
-import tsUtils
+from tslib.src.models.tsSVDModel import SVDModel
+from tslib.src import tsUtils
 
 class RobustSyntheticControl:
     

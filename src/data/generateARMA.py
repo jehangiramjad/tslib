@@ -3,11 +3,6 @@
 # Generate ARMA data
 #
 ######################################################
-
-import sys, os
-sys.path.append("..")
-sys.path.append(os.getcwd())
-
 import numpy as np
 
 def generate(arLagsArray, maLagsArray, startingArray, timeSteps, noiseMean, noiseSD):

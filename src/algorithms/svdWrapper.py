@@ -3,13 +3,9 @@
 # A wrapper for the SVD implementation of choice
 #
 ######################################################
-import sys, os
-sys.path.append("..")
-sys.path.append(os.getcwd())
-
 import numpy as np
-from algorithms.pymf.svd import SVD as pSVD
-import tsUtils
+from tslib.src.algorithms.pymf.svd import SVD as pSVD
+from tslib.src import tsUtils
 
 class SVDWrapper:
 

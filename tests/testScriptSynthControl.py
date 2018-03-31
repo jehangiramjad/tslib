@@ -2,9 +2,15 @@
 #
 # Robust Synthetic Control Tests
 #
+# You need to ensure that this script is called from
+# the tslib/ parent directory or tslib/tests/ directory:
+#
+# 1. python tests/synthControl.py
+# 2. python synthControl.py
+#
 #############################################################
-
 import sys, os
+sys.path.append("../..")
 sys.path.append("..")
 sys.path.append(os.getcwd())
 
@@ -13,9 +19,9 @@ import numpy as np
 import pandas as pd
 import copy
 
-from synthcontrol.syntheticControl import RobustSyntheticControl
-import tsUtils
-
+from tslib.src import tsUtils
+from tslib.src.synthcontrol.syntheticControl import RobustSyntheticControl
+from tslib.tests import testdata
 
 def basque(filename):
 
@@ -167,8 +173,8 @@ def prop99(filename):
 	# plot
 	yearsToPlot = range(yearStart, yearTestEnd, 1)
 	interventionYear = yearTrainEnd - 1
-	plt.plot(yearsToPlot, np.append(trainMasterDF[caStateKey], testDF[yearTrainEnd], axis=0), color='red', label='observations')
-	plt.plot(yearsToPlot, np.append(denoisedDF[yearTrainEnd], predictions, axis=0), color='blue', label='predictions')
+	plt.plot(yearsToPlot, np.append(trainMasterDF[caStateKey], testDF[caStateKey], axis=0), color='red', label='observations')
+	plt.plot(yearsToPlot, np.append(denoisedDF[caStateKey], predictions, axis=0), color='blue', label='predictions')
 	plt.axvline(x=interventionYear, linewidth=1, color='black', label='Intervention')
 	legend = plt.legend(loc='lower left', shadow=True)
 	plt.title('Abadie et al. Prop 99 Case Study (CA) - $p = %.2f$' %p)
@@ -184,18 +190,16 @@ def main():
     print("---------- Robust Synthetic Control. ------------------")
     print("-------------------------------------------------------")
 
-    print()
+    directory = os.path.dirname(testdata.__file__)
 
     print("    Proposition 99 (California)     ")
-
-    prop99Filename = 'testdata/prop99.csv'
-    #prop99(prop99Filename)
-    print()
+    
+    prop99Filename = directory + '/prop99.csv'
+    prop99(prop99Filename)
 
     print("    Basque Country                  ")
-    basqueFilename = 'testdata/basque.csv'
+    basqueFilename = directory + '/basque.csv'
     basque(basqueFilename)
-    print()
     
     print("-------------------------------------------------------")
     print("********** Testing Scripts Done. **********************")

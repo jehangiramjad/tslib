@@ -3,11 +3,6 @@
 # Generate Trend data
 #
 ######################################################
-
-import sys, os
-sys.path.append("..")
-sys.path.append(os.getcwd())
-
 import numpy as np
 
 

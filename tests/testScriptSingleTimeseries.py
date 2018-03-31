@@ -2,9 +2,15 @@
 #
 # Single-Dimensional Time Series Imputation and Forecasting
 #
+# You need to ensure that this script is called from
+# the tslib/ parent directory or tslib/tests/ directory:
+#
+# 1. python tests/singleTimeseries.py
+# 2. python singleTimeseries.py
+#
 #############################################################
-
 import sys, os
+sys.path.append("../..")
 sys.path.append("..")
 sys.path.append(os.getcwd())
 
@@ -13,11 +19,11 @@ import numpy as np
 import pandas as pd
 import copy
 
-import data.generateHarmonics as gH
-import data.generateTrend as gT
-import data.generateARMA as gA
-from  models.tsSVDModel import SVDModel
-import tsUtils
+from tslib.src.data import generateHarmonics as gH
+from  tslib.src.data import generateTrend as gT
+import tslib.src.data.generateARMA as gA
+from  tslib.src.models.tsSVDModel import SVDModel
+import tslib.src.tsUtils as tsUtils
 
 
 def armaDataTest(timeSteps):
@@ -57,10 +63,10 @@ def trendDataTest(timeSteps):
 def harmonicDataTest(timeSteps):
 
     sineCoeffs = [-2.0, 3.0]
-    sinePeriods = [4.0, 10.0]
+    sinePeriods = [26.0, 30.0]
 
     cosineCoeffs = [-2.5]
-    cosinePeriods = [12.0]
+    cosinePeriods = [16.0]
 
     data = gH.generate(sineCoeffs, sinePeriods, cosineCoeffs, cosinePeriods, timeSteps)
     #plt.plot(data)
@@ -70,10 +76,11 @@ def harmonicDataTest(timeSteps):
 
 
 
-# test for a multiple time series imputation and forecasting
-def testMultipleTS():
 
-    print("------------------- Test # 2 (Multiple TS). ------------------------")
+# test for a single time series imputation and forecasting
+def testSingleTS():
+
+    print("------------------- Test # 1 (Single TS). ------------------------")
     p = 1.0
     N = 50
     M = 400
@@ -87,12 +94,6 @@ def testMultipleTS():
     trainPoints = N*M1
     testPoints = N*M2
 
-    key1 = 't1'
-    key2 = 't2'
-    key3 = 't3'
-    otherkeys = [key2, key3]
-
-    includePastDataOnly = True
 
     print("Generating data...")
     harmonicsTS = harmonicDataTest(timeSteps)
@@ -100,23 +101,18 @@ def testMultipleTS():
     (armaTS, armaMeanTS) = armaDataTest(timeSteps)
 
     meanTS = harmonicsTS + trendTS + armaMeanTS
-    combinedTS = harmonicsTS + trendTS + armaTS
-
-    combinedTS2 = (0.3 * combinedTS) + np.random.normal(0.0, 0.5, len(combinedTS))
-    combinedTS3 = (-0.4 * combinedTS)
+    combinedTS = harmonicsTS + trendTS + armaTS 
 
     #normalize the values to all lie within [-1, 1] -- helps with RMSE comparisons
     # can use the tsUtils.unnormalize() function to convert everything back to the original range at the end, if needed
-    max1 = np.nanmax([combinedTS, combinedTS2, combinedTS3])
-    min1 = np.nanmin([combinedTS, combinedTS2, combinedTS3])
+    max1 = np.nanmax(combinedTS)
+    min1 = np.nanmin(combinedTS)
     max2 = np.nanmax(meanTS)
     min2 = np.nanmin(meanTS)
     max = np.max([max1, max2])
     min = np.min([min1, min2])
 
     combinedTS = tsUtils.normalize(combinedTS, max, min)
-    combinedTS2 = tsUtils.normalize(combinedTS2, max, min)
-    combinedTS3 = tsUtils.normalize(combinedTS3, max, min)
     meanTS = tsUtils.normalize(meanTS, max, min)
 
     # produce timestamps
@@ -124,47 +120,38 @@ def testMultipleTS():
 
     # split the data
     trainDataMaster = combinedTS[0:trainPoints] # need this as the true realized values for comparisons later
-    trainDataMaster2 = combinedTS2[0:trainPoints] 
-    trainDataMaster3 = combinedTS3[0:trainPoints] 
-
     meanTrainData = meanTS[0:trainPoints] # this is only needed for various statistical comparisons later
 
     # randomly hide training data
     (trainData, pObservation) = tsUtils.randomlyHideValues(copy.deepcopy(trainDataMaster), p)
-    (trainData2, pObservation) = tsUtils.randomlyHideValues(copy.deepcopy(trainDataMaster2), p)
-    (trainData3, pObservation) = tsUtils.randomlyHideValues(copy.deepcopy(trainDataMaster3), p)
-
-    # once we have interpolated, pObservation should be set back to 1.0
-    pObservation = 1.0
 
     # interpolating Nans with linear interpolation
     trainData = tsUtils.nanInterpolateHelper(trainData)
-    trainData2 = tsUtils.nanInterpolateHelper(trainData2)
-    trainData3 = tsUtils.nanInterpolateHelper(trainData3)
 
     # test data and hidden truth
     testData = combinedTS[-1*testPoints: ]
-    testData2 = combinedTS2[-1*testPoints: ]
-    testData3 = combinedTS3[-1*testPoints: ]
-
     meanTestData = meanTS[-1*testPoints: ] # this is only needed for various statistical comparisons
 
     # time stamps
     trainTimestamps = timestamps[0:trainPoints]
     testTimestamps = timestamps[-1*testPoints: ]
 
-    # create pandas df    
-    trainMasterDF = pd.DataFrame(index=trainTimestamps, data={key1: trainDataMaster, key2: trainDataMaster2, key3: trainDataMaster3}) # needed for reference later
-    trainDF = pd.DataFrame(index=trainTimestamps, data={key1: trainData, key2: trainData2, key3: trainData3})
+    # once we have interpolated, pObservation should be set back to 1.0
+    pObservation = 1.0
+
+    # create pandas df
+    key1 = 't1'
+    trainMasterDF = pd.DataFrame(index=trainTimestamps, data={key1: trainDataMaster}) # needed for reference later
+    trainDF = pd.DataFrame(index=trainTimestamps, data={key1: trainData})
     meanTrainDF = pd.DataFrame(index=trainTimestamps, data={key1: meanTrainData})
 
-    testDF = pd.DataFrame(index=testTimestamps, data={key1: testData, key2: testData2, key3: testData3})
+    testDF = pd.DataFrame(index=testTimestamps, data={key1: testData})
     meanTestDF = pd.DataFrame(index=testTimestamps, data={key1: meanTestData})
 
     # train the model
     print("Training the model (imputing)...")
     nbrSingValuesToKeep = 5
-    mod = SVDModel(key1, nbrSingValuesToKeep, N, M1, probObservation=pObservation, svdMethod='numpy', otherSeriesKeysArray=otherkeys, includePastDataOnly=includePastDataOnly)
+    mod = SVDModel(key1, nbrSingValuesToKeep, N, M1, probObservation=pObservation, svdMethod='numpy', otherSeriesKeysArray=[], includePastDataOnly=True)
     mod.fit(trainDF)
 
     # imputed + denoised data 
@@ -174,48 +161,21 @@ def testMultipleTS():
     print(" RMSE (training imputation vs obs)  = %f" %tsUtils.rmse(trainMasterDF[key1].values, imputedDf[key1].values))
 
     print("Forecasting (#points = %d)..." %len(testDF))
-
     # test data is used for point-predictions
-    otherTSPoints = N
-    if (includePastDataOnly == True):
-        otherTSPoints = N - 1
     forecastArray = []
     for i in range(0, len(testDF)):
-        
-        pastPointsPrediction = np.zeros(N - 1) # for the time series of interest, we only use the past N - 1 points
-        
-        # first fill in the time series of interest
+        pastPoints = np.zeros(N-1) # need an N-1 length vector of past point
         j = 0
         if (i < N - 1):   # the first prediction uses the end of the training data
             while (j < N - 1 - i):
-                pastPointsPrediction[j] = trainMasterDF[key1].values[len(trainDF) - (N - 1 - i) + j]
+                pastPoints[j] = trainMasterDF[key1].values[len(trainDF) - (N - 1 - i) + j]
                 j += 1
 
         if (j < N - 1): # use the new test data
-            pastPointsPrediction[j:] = testDF[key1].values[i - (N - 1) + j:i] 
+            pastPoints[j:] = testDF[key1].values[i - (N - 1) + j:i] 
 
-        # now fill in the other series
-        otherSeriesDataDict = {}
-        for key in otherkeys:
-            pastPointsOthers = np.zeros(otherTSPoints) # need an appropriate length vector of past points for each series
-            j = 0
-            if (i < N - 1):   # the first prediction uses the end of the training data
-                while (j < N - 1 - i):
-                    pastPointsOthers[j] = trainMasterDF[key].values[len(trainDF) - (N - 1 - i) + j]
-                    j += 1
-
-            if (j < otherTSPoints): # use the new test data
-                if (includePastDataOnly == True):
-                    pastPointsOthers[j:] = testDF[key].values[i - (N - 1) + j:i] 
-                else:
-                    pastPointsOthers[j:] = testDF[key].values[i - (N - 1) + j:i + 1] 
-
-            otherSeriesDataDict.update({key: pastPointsOthers})
-
-        otherKeysToSeriesDFNew = pd.DataFrame(data=otherSeriesDataDict)
-        keyToSeriesDFNew = pd.DataFrame(data={key1: pastPointsPrediction})
-
-        prediction = mod.predict(otherKeysToSeriesDFNew, keyToSeriesDFNew, bypassChecks=False)
+        keyToSeriesDFNew = pd.DataFrame(data={key1: pastPoints})
+        prediction = mod.predict(pd.DataFrame(data={}), keyToSeriesDFNew, bypassChecks=False)
         forecastArray.append(prediction)
 
     print(" RMSE (prediction vs mean) = %f" %tsUtils.rmse(meanTestDF[key1].values, forecastArray))
@@ -235,13 +195,11 @@ def main():
     print("*******************************************************")
     print("********** Running the Testing Scripts. ***************")
 
-    testMultipleTS()
+    testSingleTS()
 
     print("********** Testing Scripts Done. **********************")
     print("*******************************************************")
     print("*******************************************************")
 
 if __name__ == "__main__":
-
-
     main()
