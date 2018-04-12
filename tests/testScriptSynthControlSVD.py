@@ -1,12 +1,12 @@
 #############################################################
 #
-# Robust Synthetic Control Tests
+# Robust Synthetic Control Tests (based on SVD)
 #
 # You need to ensure that this script is called from
 # the tslib/ parent directory or tslib/tests/ directory:
 #
-# 1. python tests/testScriptsynthControl.py
-# 2. python testScriptsynthControl.py
+# 1. python tests/testScriptsynthControlSVD.py
+# 2. python testScriptsynthControlSVD.py
 #
 #############################################################
 import sys, os
@@ -78,7 +78,7 @@ def basque(filename):
 	testDF = pd.DataFrame(data=testDataDict)
 
 	# model
-	rscModel = RobustSyntheticControl(basqueKey, singvals, len(trainDF), probObservation=1.0, svdMethod='numpy', otherSeriesKeysArray=otherStates)
+	rscModel = RobustSyntheticControl(basqueKey, singvals, len(trainDF), probObservation=1.0, modelType='svd', svdMethod='numpy', otherSeriesKeysArray=otherStates)
 
 	# fit the model
 	rscModel.fit(trainDF)
@@ -157,7 +157,7 @@ def prop99(filename):
 	testDF = pd.DataFrame(data=testDataDict)
 
 	# model
-	rscModel = RobustSyntheticControl(caStateKey, singvals, len(trainDF), probObservation=1.0, svdMethod='numpy', otherSeriesKeysArray=otherStates)
+	rscModel = RobustSyntheticControl(caStateKey, singvals, len(trainDF), probObservation=1.0,  modelType='svd', svdMethod='numpy', otherSeriesKeysArray=otherStates)
 
 	# fit the model
 	rscModel.fit(trainDF)
@@ -187,7 +187,7 @@ def main():
     print("********** Running the Testing Scripts. ***************")
 
     print("-------------------------------------------------------")
-    print("---------- Robust Synthetic Control. ------------------")
+    print("---------- Robust Synthetic Control (SVD). ------------------")
     print("-------------------------------------------------------")
 
     directory = os.path.dirname(testdata.__file__)

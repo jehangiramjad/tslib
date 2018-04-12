@@ -78,6 +78,45 @@ def randomlyHideValues(array, pObservation):
     p_obs = float(count)/float(len(array))
     return (array, 1.0 - p_obs)
 
+# chooses rows of the matrix according to pObservationRow
+# hide stretches of data with the longestStretch being the max entries hidden in a row
+# gap should ideally be the number of columns of the matrix this array will be converted in to
+def randomlyHideConsecutiveEntries(array, pObservationRow, longestStretch, gap):
+
+    n = len(array)
+    valuesToHide = int((1.0 - pObservationRow) * n)
+
+    count = 0
+    countStart = 0
+    i = 0
+    while (i < n):
+        # decide if this point is the start of a randomly missing run
+        if (np.random.uniform(0, 1) > pObservationRow):
+            countStart +=1
+
+            # now decide how many consecutive values go missing and where to start
+            toHide = longestStretch #int(np.random.uniform(0, 1) * longestStretch)
+            startingIndex = i + int(np.random.uniform(0, 1) * (gap - toHide))
+
+            if (toHide + startingIndex >  (i + gap)):
+                toHide = (i + gap) - startingIndex
+
+            array[startingIndex: startingIndex + toHide] = np.nan * np.zeros(toHide)
+            
+            count += toHide
+
+            valuesToHide -= toHide
+
+            if (valuesToHide <= 0):
+                break
+
+        # ensure there is some space between consecutive runs
+        i += gap
+
+    p_obs = float(count)/float(n)
+    print(p_obs, countStart, n, pObservationRow)
+    return (array, 1.0 - p_obs)
+
 
 # following is taken from: https://stackoverflow.com/questions/6518811/interpolate-nan-values-in-a-numpy-array
 def nanInterpolateHelper(array):

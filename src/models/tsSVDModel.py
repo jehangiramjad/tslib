@@ -10,7 +10,7 @@ from tslib.src.algorithms.svdWrapper import SVDWrapper as SVD
 
 from tslib.src import tsUtils
 
-class SVDModel:
+class SVDModel(object):
 
     # seriesToPredictKey:       (string) the time series of interest (key)
     # kSingularValuesToKeep:    (int) the number of singular values to retain
@@ -60,7 +60,6 @@ class SVDModel:
         matrixDim2 = np.shape(self.Uk)[1]# this is the number of singular values selected
         eachTSRows = self.N
 
-        
         if (self.includePastDataOnly == True):
             matrixDim1 = ((self.N - 1) * len(self.otherSeriesKeysArray)) + self.N-1
             eachTSRows = self.N - 1
@@ -79,6 +78,7 @@ class SVDModel:
         matrixInverse = tsUtils.pInverseMatrixFromSVD(self.sk, U, self.Vk, probability=self.p)
         self.weights = np.dot(matrixInverse.T, (1.0/self.p) * self.lastRowObservations.T)
 
+    # return the imputed matrix
     def denoisedDF(self):
         setAllKeys = set(self.otherSeriesKeysArray)
         setAllKeys.add(self.seriesToPredictKey)
@@ -99,11 +99,9 @@ class SVDModel:
         return pd.DataFrame(data=dataDict)
 
 
-    # keyToSeriesDictionary: (Pandas dataframe) a key-value Series (time series)
-    # Note that the keys provided in the constructor MUST all be present
-    # The values must be all numpy arrays of floats.
-    # This function sets the "de-noised" and imputed data matrix which can be accessed by the .matrix property
-    def fit(self, keyToSeriesDF):
+    # this internal method assigns the data (provided to fit()) to the class variables to help with computations
+    # if missingValueFill = True, then we will impute with the middle value
+    def _assignData(self, keyToSeriesDF, missingValueFill=True):
 
         setAllKeys = set(self.otherSeriesKeysArray)
         setAllKeys.add(self.seriesToPredictKey)
@@ -111,11 +109,12 @@ class SVDModel:
         if (len(set(keyToSeriesDF.columns.values).intersection(setAllKeys)) != len(setAllKeys)):
             raise Exception('keyToSeriesDF does not contain ALL keys provided in the constructor.')
 
-        # impute with the least informative value (middle)
-        max = np.nanmax(keyToSeriesDF)
-        min = np.nanmin(keyToSeriesDF)
-        diff = 0.5*(min + max)
-        keyToSeriesDF = keyToSeriesDF.fillna(value=diff)
+        if (missingValueFill == True):
+            # impute with the least informative value (middle)
+            max = np.nanmax(keyToSeriesDF)
+            min = np.nanmin(keyToSeriesDF)
+            diff = 0.5*(min + max)
+            keyToSeriesDF = keyToSeriesDF.fillna(value=diff)
 
         T = self.N * self.M
         for key in setAllKeys:
@@ -141,6 +140,16 @@ class SVDModel:
         
         # set the last row of observations
         self.lastRowObservations = copy.deepcopy(self.matrix[-1, :])
+
+
+    # keyToSeriesDictionary: (Pandas dataframe) a key-value Series (time series)
+    # Note that the keys provided in the constructor MUST all be present
+    # The values must be all numpy arrays of floats.
+    # This function sets the "de-noised" and imputed data matrix which can be accessed by the .matrix property
+    def fit(self, keyToSeriesDF):
+
+        # assign data to class variables
+        self._assignData(keyToSeriesDF, missingValueFill=True)
 
         # now produce a thresholded/de-noised matrix. this will over-write the original data matrix
         svdMod = SVD(self.matrix, method='numpy')
@@ -212,13 +221,14 @@ class SVDModel:
 # N = 4
 # M = 5
 # p = 1.0
+# modelType = 'svd'
 # svdMethod='numpy'
 # otherSeriesKeysArray=['a2', 'a3']
 # includePastDataOnly = False
 
 # keytoSeriesDictionary = {'a1': np.random.normal(0, 1, N*M), 'a2': np.random.normal(0, 1, N*M), 'a3':np.random.normal(0, 1, N*M)}
 # df = pd.DataFrame(data=keytoSeriesDictionary)
-# mod = SVDModel(seriesToPredictKey, kSingularValuesToKeep, N, M, probObservation=1.0, svdMethod='numpy', otherSeriesKeysArray=otherSeriesKeysArray, includePastDataOnly=includePastDataOnly)
+# mod = SVDModel(seriesToPredictKey, kSingularValuesToKeep, N, M, probObservation=1.0, modelType= modelType, svdMethod='numpy', otherSeriesKeysArray=otherSeriesKeysArray, includePastDataOnly=includePastDataOnly)
 # mod.fit(df)
 
 # # predict

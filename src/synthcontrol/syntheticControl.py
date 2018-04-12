@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 
 from tslib.src.models.tsSVDModel import SVDModel
+from tslib.src.models.tsALSModel import ALSModel
 from tslib.src import tsUtils
 
 class RobustSyntheticControl:
@@ -17,10 +18,11 @@ class RobustSyntheticControl:
     # kSingularValuesToKeep:    (int) the number of singular values to retain
     # M:                        (int) the number of columns for the matrix
     # probObservation:          (float) the independent probability of observation of each entry in the matrix
+    # modelType:                (string) SVD or ALS. Default is "SVD"
     # svdMethod:                (string) the SVD method to use (optional)
     # otherSeriesKeysArray:     (array) an array of keys for other series which will be used to predict 
 
-    def __init__(self, seriesToPredictKey, kSingularValuesToKeep, M, probObservation=1.0, svdMethod='numpy', otherSeriesKeysArray=[]):
+    def __init__(self, seriesToPredictKey, kSingularValuesToKeep, M, probObservation=1.0, modelType='svd', svdMethod='numpy', otherSeriesKeysArray=[]):
 
         self.seriesToPredictKey = seriesToPredictKey
         self.otherSeriesKeysArray = otherSeriesKeysArray
@@ -33,7 +35,14 @@ class RobustSyntheticControl:
 
         self.p = probObservation
 
-        self.model = SVDModel(self.seriesToPredictKey, self.kSingularValues, self.N, self.M, probObservation=self.p, svdMethod='numpy', otherSeriesKeysArray=self.otherSeriesKeysArray, includePastDataOnly=False)
+        if (modelType == 'als'):
+            self.model = ALSModel(self.seriesToPredictKey, self.kSingularValues, self.N, self.M, probObservation=self.p, otherSeriesKeysArray=self.otherSeriesKeysArray, includePastDataOnly=False)
+
+        elif (modelType == 'svd'):
+            self.model = SVDModel(self.seriesToPredictKey, self.kSingularValues, self.N, self.M, probObservation=self.p, svdMethod='numpy', otherSeriesKeysArray=self.otherSeriesKeysArray, includePastDataOnly=False)
+
+        else:
+            self.model = SVDModel(self.seriesToPredictKey, self.kSingularValues, self.N, self.M, probObservation=self.p, svdMethod='numpy', otherSeriesKeysArray=self.otherSeriesKeysArray, includePastDataOnly=False)
 
         self.control = None # these are the synthetic control weights
 

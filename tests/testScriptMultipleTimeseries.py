@@ -23,6 +23,7 @@ import tslib.src.data.generateHarmonics as gH
 import tslib.src.data.generateTrend as gT
 import tslib.src.data.generateARMA as gA
 from  tslib.src.models.tsSVDModel import SVDModel
+from tslib.src.models.tsALSModel import ALSModel
 import tslib.src.tsUtils as tsUtils
 
 
@@ -86,7 +87,7 @@ def testMultipleTS():
     timeSteps = N*M
     
     # train/test split
-    trainProp = 0.9
+    trainProp = 0.7
     M1 = int(trainProp * M)
     M2 = M - M1
 
@@ -140,13 +141,18 @@ def testMultipleTS():
     (trainData2, pObservation) = tsUtils.randomlyHideValues(copy.deepcopy(trainDataMaster2), p)
     (trainData3, pObservation) = tsUtils.randomlyHideValues(copy.deepcopy(trainDataMaster3), p)
 
+    # now further hide consecutive entries for a very small fraction of entries in the eventual training matrix
+    (trainData, pObservation) = tsUtils.randomlyHideConsecutiveEntries(copy.deepcopy(trainData), 0.95, int(M1 * 0.25), M1)
+    (trainData2, pObservation) = tsUtils.randomlyHideConsecutiveEntries(copy.deepcopy(trainData2), 0.95, int(M1 * 0.25), M1)
+    (trainData3, pObservation) = tsUtils.randomlyHideConsecutiveEntries(copy.deepcopy(trainData3), 0.95, int(M1 * 0.25), M1)
+
     # once we have interpolated, pObservation should be set back to 1.0
     pObservation = 1.0
 
     # interpolating Nans with linear interpolation
-    trainData = tsUtils.nanInterpolateHelper(trainData)
-    trainData2 = tsUtils.nanInterpolateHelper(trainData2)
-    trainData3 = tsUtils.nanInterpolateHelper(trainData3)
+    #trainData = tsUtils.nanInterpolateHelper(trainData)
+    #trainData2 = tsUtils.nanInterpolateHelper(trainData2)
+    #trainData3 = tsUtils.nanInterpolateHelper(trainData3)
 
     # test data and hidden truth
     testData = combinedTS[-1*testPoints: ]
@@ -171,6 +177,9 @@ def testMultipleTS():
     print("Training the model (imputing)...")
     nbrSingValuesToKeep = 5
     mod = SVDModel(key1, nbrSingValuesToKeep, N, M1, probObservation=pObservation, svdMethod='numpy', otherSeriesKeysArray=otherkeys, includePastDataOnly=includePastDataOnly)
+    
+    # uncomment below to run the ALS algorithm ; comment out the above line
+    #mod = ALSModel(key1, nbrSingValuesToKeep, N, M1, probObservation=pObservation, otherSeriesKeysArray=otherkeys, includePastDataOnly=True)
     mod.fit(trainDF)
 
     # imputed + denoised data 

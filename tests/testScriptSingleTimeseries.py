@@ -23,6 +23,7 @@ from tslib.src.data import generateHarmonics as gH
 from  tslib.src.data import generateTrend as gT
 import tslib.src.data.generateARMA as gA
 from  tslib.src.models.tsSVDModel import SVDModel
+from  tslib.src.models.tsALSModel import ALSModel
 import tslib.src.tsUtils as tsUtils
 
 
@@ -81,7 +82,7 @@ def harmonicDataTest(timeSteps):
 def testSingleTS():
 
     print("------------------- Test # 1 (Single TS). ------------------------")
-    p = 1.0
+    p = 0.5
     N = 50
     M = 400
     timeSteps = N*M
@@ -122,11 +123,14 @@ def testSingleTS():
     trainDataMaster = combinedTS[0:trainPoints] # need this as the true realized values for comparisons later
     meanTrainData = meanTS[0:trainPoints] # this is only needed for various statistical comparisons later
 
-    # randomly hide training data
+    # randomly hide training data: choose between randomly hiding entries or randomly hiding consecutive entries
     (trainData, pObservation) = tsUtils.randomlyHideValues(copy.deepcopy(trainDataMaster), p)
 
+    # now further hide consecutive entries for a very small fraction of entries in the eventual training matrix
+    (trainData, pObservation) = tsUtils.randomlyHideConsecutiveEntries(copy.deepcopy(trainData), 0.95, int(M1 * 0.25), M1)
+    
     # interpolating Nans with linear interpolation
-    trainData = tsUtils.nanInterpolateHelper(trainData)
+    #trainData = tsUtils.nanInterpolateHelper(trainData)
 
     # test data and hidden truth
     testData = combinedTS[-1*testPoints: ]
@@ -151,7 +155,10 @@ def testSingleTS():
     # train the model
     print("Training the model (imputing)...")
     nbrSingValuesToKeep = 5
-    mod = SVDModel(key1, nbrSingValuesToKeep, N, M1, probObservation=pObservation, svdMethod='numpy', otherSeriesKeysArray=[], includePastDataOnly=True)
+    #mod = SVDModel(key1, nbrSingValuesToKeep, N, M1, probObservation=pObservation, svdMethod='numpy', otherSeriesKeysArray=[], includePastDataOnly=True)
+    
+    # uncomment below to run the ALS algorithm ; comment out the above line
+    mod = ALSModel(key1, nbrSingValuesToKeep, N, M1, probObservation=pObservation, otherSeriesKeysArray=[], includePastDataOnly=True)
     mod.fit(trainDF)
 
     # imputed + denoised data 
