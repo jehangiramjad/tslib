@@ -82,7 +82,7 @@ def harmonicDataTest(timeSteps):
 def testSingleTS():
 
     print("------------------- Test # 1 (Single TS). ------------------------")
-    p = 0.5
+    p = 0.7
     N = 50
     M = 400
     timeSteps = N*M
@@ -127,7 +127,7 @@ def testSingleTS():
     (trainData, pObservation) = tsUtils.randomlyHideValues(copy.deepcopy(trainDataMaster), p)
 
     # now further hide consecutive entries for a very small fraction of entries in the eventual training matrix
-    (trainData, pObservation) = tsUtils.randomlyHideConsecutiveEntries(copy.deepcopy(trainData), 0.95, int(M1 * 0.25), M1)
+    (trainData, pObservation) = tsUtils.randomlyHideConsecutiveEntries(copy.deepcopy(trainData), 0.9, int(M1 * 0.25), M1)
     
     # interpolating Nans with linear interpolation
     #trainData = tsUtils.nanInterpolateHelper(trainData)
@@ -154,9 +154,16 @@ def testSingleTS():
 
     # train the model
     print("Training the model (imputing)...")
+    print('SVD')
     nbrSingValuesToKeep = 5
-    #mod = SVDModel(key1, nbrSingValuesToKeep, N, M1, probObservation=pObservation, svdMethod='numpy', otherSeriesKeysArray=[], includePastDataOnly=True)
-    
+    mod = SVDModel(key1, nbrSingValuesToKeep, N, M1, probObservation=pObservation, svdMethod='numpy', otherSeriesKeysArray=[], includePastDataOnly=True)
+    mod.fit(trainDF)
+    imputedDf = mod.denoisedDF()
+
+    print(" RMSE (training imputation vs mean) = %f" %tsUtils.rmse(meanTrainDF[key1].values, imputedDf[key1].values))
+    print(" RMSE (training imputation vs obs)  = %f" %tsUtils.rmse(trainMasterDF[key1].values, imputedDf[key1].values))
+
+    print('ALS')
     # uncomment below to run the ALS algorithm ; comment out the above line
     mod = ALSModel(key1, nbrSingValuesToKeep, N, M1, probObservation=pObservation, otherSeriesKeysArray=[], includePastDataOnly=True)
     mod.fit(trainDF)

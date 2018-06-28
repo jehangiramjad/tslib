@@ -65,7 +65,6 @@ class SVDWrapper:
         if ((self.U is None) | (self.V is None) | (self.s is None)):
             self.decompose() # first perform the full decomposition
 
-        print(self.s[0:10])
         sk = self.s[0:k]
         Uk = self.U[:, 0:k]
         Vk = self.V[:, 0:k]
