@@ -53,7 +53,7 @@ def trendDataTest(timeSteps):
     data += gT.generate(f2, dampening=dampening, displacement=displacement, timeSteps=timeSteps)
 
     f3 = gT.negExpTrendFn
-    t3 = gT.generate(f3, dampening=dampening, displacement=displacement, timeSteps=timeSteps)
+    data += gT.generate(f3, dampening=dampening, displacement=displacement, timeSteps=timeSteps)
 
     #plt.plot(t2)
     #plt.show()
