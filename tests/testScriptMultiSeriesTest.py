@@ -3,7 +3,7 @@ sys.path.append("../..")
 sys.path.append("..")
 sys.path.append(os.getcwd())
 
-from matplotlib import pyplot as plt
+#from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
 import copy
@@ -262,7 +262,6 @@ def test(combinedTS, meanTS, nbrSingValuesToKeep=5, N=50, M=400, p=.7, SVD=True,
 
 	if SVD:
 		# train the model
-		nbrSingValuesToKeep = 5
 		mod = SVDModel(key1, nbrSingValuesToKeep, N, M1, probObservation=pObservation, svdMethod='numpy', otherSeriesKeysArray=[], includePastDataOnly=True)
 		mod.fit(trainDF)
 		imputedDf = mod.denoisedDF()
