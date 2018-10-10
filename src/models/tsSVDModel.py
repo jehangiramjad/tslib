@@ -50,6 +50,38 @@ class SVDModel(object):
     # DO NOT call directly
     def _computeWeights(self):
         
+        # if (self.lastRowObservations is None):
+        #     raise Exception('Do not call _computeWeights() directly. It should only be accessed via class methods.')
+
+        # # need to decide how to produce weights based on whether the N'th data points are to be included for the other time series or not
+        # # for the seriesToPredictKey we only look at the past. For others, we could be looking at the current data point in time as well.
+        
+        # matrixDim1 = (self.N * len(self.otherSeriesKeysArray)) + self.N-1
+        # matrixDim2 = np.shape(self.Uk)[1]# this is the number of singular values selected
+        # eachTSRows = self.N
+
+        # if (self.includePastDataOnly == True):
+        #     matrixDim1 = ((self.N - 1) * len(self.otherSeriesKeysArray)) + self.N-1
+        #     eachTSRows = self.N - 1
+        #     U = np.zeros([matrixDim1, matrixDim2])
+
+        #     i = 0
+        #     j = 0
+        #     while (i < matrixDim1):
+        #         U[i : i+ eachTSRows, :] = self.Uk[j : j + self.N - 1, : ] 
+
+        #         i += eachTSRows
+        #         j += self.N
+        # else:
+        #     U = self.Uk[0:-1, :]
+
+        # matrixInverse = tsUtils.pInverseMatrixFromSVD(self.sk, U, self.Vk, probability=self.p)
+        # self.weights = np.dot(matrixInverse.T, (1.0/self.p) * self.lastRowObservations.T)
+
+        ### This is now the same as ALS
+        ## this is an expensive step because we are computing the SVD all over again 
+        ## however, currently, there is no way around it since this is NOT the same matrix as the full
+        ## self.matrix, i.e. we have fewer (or just one less) rows
         if (self.lastRowObservations is None):
             raise Exception('Do not call _computeWeights() directly. It should only be accessed via class methods.')
 
@@ -57,26 +89,32 @@ class SVDModel(object):
         # for the seriesToPredictKey we only look at the past. For others, we could be looking at the current data point in time as well.
         
         matrixDim1 = (self.N * len(self.otherSeriesKeysArray)) + self.N-1
-        matrixDim2 = np.shape(self.Uk)[1]# this is the number of singular values selected
+        matrixDim2 = np.shape(self.matrix)[1]
         eachTSRows = self.N
 
-        if (self.includePastDataOnly == True):
+        if (self.includePastDataOnly == False):
+            newMatrix = self.matrix[0:matrixDim1, :]
+
+        else:
             matrixDim1 = ((self.N - 1) * len(self.otherSeriesKeysArray)) + self.N-1
             eachTSRows = self.N - 1
-            U = np.zeros([matrixDim1, matrixDim2])
 
-            i = 0
-            j = 0
-            while (i < matrixDim1):
-                U[i : i+ eachTSRows, :] = self.Uk[j : j + self.N - 1, : ] 
+            newMatrix = np.zeros([matrixDim1, matrixDim2])
 
-                i += eachTSRows
-                j += self.N
-        else:
-            U = self.Uk[0:-1, :]
+            rowIndex = 0
+            matrixInd = 0
+            print(eachTSRows)
+            while (rowIndex < matrixDim1):
+                newMatrix[rowIndex: rowIndex + eachTSRows] = self.matrix[matrixInd: matrixInd +eachTSRows]
 
-        matrixInverse = tsUtils.pInverseMatrixFromSVD(self.sk, U, self.Vk, probability=self.p)
-        self.weights = np.dot(matrixInverse.T, (1.0/self.p) * self.lastRowObservations.T)
+                rowIndex += eachTSRows
+                matrixInd += self.N
+
+        svdMod = SVD(newMatrix, method='numpy')
+        (s, U, V) = svdMod.reconstructMatrix(self.kSingularValues, returnMatrix=False)
+
+        newMatrixPInv = tsUtils.pInverseMatrixFromSVD(s, U, V, probability=self.p)
+        self.weights = np.dot(newMatrixPInv.T, self.lastRowObservations.T)
 
     # return the imputed matrix
     def denoisedDF(self):
