@@ -3,7 +3,7 @@ sys.path.append("../..")
 sys.path.append("..")
 sys.path.append(os.getcwd())
 
-#from matplotlib import pyplot as plt
+from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
 import copy
@@ -11,6 +11,8 @@ import copy
 from tslib.src.data import generateHarmonics as gH
 from  tslib.src.data import generateTrend as gT
 import tslib.src.data.generateARMA as gA
+import tslib.src.data.generateARMAvar as gAv
+import tslib.src.data.generateARMAvar as gAvar
 from  tslib.src.models.tsSVDModel import SVDModel
 from  tslib.src.models.tsALSModel import ALSModel
 import tslib.src.tsUtils as tsUtils
@@ -19,18 +21,15 @@ import tslib.src.tsUtils as tsUtils
 # TODOS:
 # Lots of small harmonics
 # Seasonal Data - feed in old array as init array for arma
-# Changing variance
-# Changing variance over time
+# Changing variance over time (ARCH, GARCh)
 # change num singular vals
+# Random Noise periods
 # ([-1.0, 1.337, -0.715, 0.191, -0.026, 0.001], [-1.0, 3.054, -3.731, 2.279, -0.696, 0.085])
 #############################################################
 
-
-
-
 #############################################################
 # Generating Data
-#############################################################
+#############################################################x
 
 def armaData(arLags, maLags, noiseSD, timeSteps, startingArray=None):
 	if startingArray==None: 
@@ -166,38 +165,9 @@ def plotSeries(combinedTS, title=''):
 # Test Function
 #############################################################
 
-def test(combinedTS, meanTS, nbrSingValuesToKeep=5, N=50, M=400, p=.7, SVD=True, ALS=True):
-	# #prob redundant
-	# timeSteps=N*M
-	# # train/test split
-	# trainProp = 0.9
-	# M1 = int(trainProp * M)
-	# M2 = M - M1
-
-	# trainPoints = N*M1
-	# testPoints = N*M2
-
-	# # train/test split
-	# trainProp = 0.9
-	# M1 = int(trainProp * M)
-	# M2 = M - M1
-
-	# trainPoints = N*M1
-	# testPoints = N*M2
-	# #end reduncy
-	# key1='t1'
-	# trainMasterDF, trainDF, meanTrainDF, testDF, meanTestDF = makeDFs(combinedTS, meanTS, N, M, p)
-	# timeSteps=N*M
+def test(combinedTS, meanTS, nbrSingValuesToKeep=5, N=50, M=400, p=.7, SVD=True, ALS=True, alsPrediction=True):
 
 	out=[]
-
-
-
-
-
-
-
-
 
 	timeSteps=N*M
 	# train/test split
@@ -251,14 +221,6 @@ def test(combinedTS, meanTS, nbrSingValuesToKeep=5, N=50, M=400, p=.7, SVD=True,
 
 	testDF = pd.DataFrame(index=testTimestamps, data={key1: testData})
 	meanTestDF = pd.DataFrame(index=testTimestamps, data={key1: meanTestData})
-
-
-
-
-
-
-
-
 
 	if SVD:
 		# train the model
@@ -410,7 +372,7 @@ def testARMAStandardDev():
 		
 
 
-def testARMANumSingVals():
+def testARMANumSingVals(data):
 	N, M = 100, 1000
 	timeSteps=N*M
 
@@ -445,6 +407,9 @@ def testARMANumSingVals():
 
 	combinedTS=trend+obs+harmonics
 	meanTS=mean+trend+harmonics
+
+	plt.plot(combinedTS)
+	plt.show()
 
 	combinedTS, meanTS = normalize(combinedTS, meanTS)
 
@@ -484,26 +449,112 @@ def testHarmonicNumSingVals():
 
 #MAIN
 def main():
-	# a,b = generateStationaryARMALags(5,5)
-	# obs, mean = armaData(a, b, 1.0, 200*500, startingArray=None)
-	# print((a,b))
-	# plotSeries(obs,'f')
+	a,b = generateStationaryARMALags(5,5)
+	obs, mean = armaData(a, b, 1.0, 200*500, startingArray=None)
+	print((a,b))
+	plotSeries(obs,'f')
 
-	testARMAStandardDev()
-	testARMANumSingVals()
+	timeSteps=40*500
+	arLags = [0.268, -1.247, 1.934, -1.0]
+	arLags.reverse()
+	maLags = [0.5, 0.1]
 
-	# timeSteps=40*500
-	# arLags = [0.268, -1.247, 1.934, -1.0]
-	# arLags.reverse()
-	# maLags = [0.5, 0.1]
+	startingArray = np.zeros(np.max([len(arLags), len(maLags)])) # start with all 0's
+	noiseMean = 0.0
+	noiseSD = 1.0
 
-	# startingArray = np.zeros(np.max([len(arLags), len(maLags)])) # start with all 0's
-	# noiseMean = 0.0
-	# noiseSD = 1.0
+	(observedArray, meanArray, errorArray) = gA.generate(arLags, maLags, startingArray, timeSteps, noiseMean, noiseSD)
 
-	# (observedArray, meanArray, errorArray) = gA.generate(arLags, maLags, startingArray, timeSteps, noiseMean, noiseSD)
+	plotSeries(observedArray)
+	
+	timeSteps=100000
 
-	# plotSeries(observedArray)
+	ar, ma = ([-1.0, 1.337, -0.715, 0.191, -0.026, 0.001], [-1.0, 3.054, -3.731, 2.279, -0.696, 0.085])
+	
+	# trend = trendData([(gT.linearTrendFn, 0.35, -2.5), (gT.logTrendFn, 2.0*float(1.0/N*M), -2.5), (gT.negExpTrendFn, 2.0*float(1.0/N*M), -2.5)], N*M)
+
+	data, mean = armaData(ar, ma, 2.0, timeSteps, startingArray=None)
+
+	data=data
+	sineCoeffs = [10, 5, -6.25, 7.5]#[35.0, 23.0, 15.0]
+	sinePeriods = [12, 3, 4, 6]#[1.35, 2.10, .75]
+
+	cosineCoeffs = []#[50.0, 37.0]
+	cosinePeriods = []#[1.0, 3.0]
+
+	f= gH.generate(sineCoeffs, sinePeriods, cosineCoeffs, cosinePeriods, timeSteps)
+	mean+=f
+	data+=f
+	plt.plot(data)
+	plt.show()
+
+	np.save('harmobs.npy', observedArray)
+	np.save('harmmean.npy', meanArray)
+
+
+#=====
+	timeSteps=100000
+
+
+	sineCoeffs = [2, .5, -.2, 1]#[35.0, 23.0, 15.0]
+	sinePeriods = [12, 3, 4, 6]#[1.35, 2.10, .75]
+
+	cosineCoeffs = []#[50.0, 37.0]
+	cosinePeriods = []#[1.0, 3.0]
+
+	sdfunc = gH.generate(sineCoeffs, sinePeriods, cosineCoeffs, cosinePeriods, timeSteps)
+
+	ar, ma = ([-1.0, 1.337, -0.715, 0.191, -0.026, 0.001], [-1.0, 3.054, -3.731, 2.279, -0.696, 0.085])
+
+	startingArray = np.zeros(np.max([len(ar), len(ma)]))
+
+	noiseMean=0.0
+	
+	observedArray, meanArray, errorArray = gAv.generate(ar, ma, startingArray, timeSteps, noiseMean, 1.0, sdfunc)
+	plt.plot(observedArray)
+	plt.show()
+	np.save('sdharmonicobs.npy', observedArray)
+	np.save('sdharmonicmean.npy', meanArray)
+#====
+	timeSteps=100000
+	N=1
+	M=100000
+
+
+	dampening = 5.0*float(1.0/timeSteps)
+	power = 0.35
+	displacement =0.5
+
+
+	# f1 = gT.linearTrendFn
+	# data = gT.generate(f1, power=power, displacement=displacement, timeSteps=timeSteps)
+
+	# f2 = gT.logTrendFn
+	# data += gT.generate(f2, dampening=dampening, displacement=displacement, timeSteps=timeSteps)
+
+	f3 = gT.negExpTrendFn
+	data = gT.generate(f3, dampening=dampening, displacement=displacement, timeSteps=timeSteps)
+
+	sdfunc = data
+	
+	ar, ma = ([-1.0, 1.337, -0.715, 0.191, -0.026, 0.001], [-1.0, 3.054, -3.731, 2.279, -0.696, 0.085])
+
+	startingArray = np.zeros(np.max([len(ar), len(ma)]))
+
+	noiseMean=0.0
+	
+	observedArray, meanArray, errorArray = gAv.generate(ar, ma, startingArray, timeSteps, noiseMean, 1.0, sdfunc)
+
+	plt.plot(observedArray)
+	plt.show()
+	
+	np.save('negexpsdobs.npy', observedArray)
+	np.save('negexpsdmean.npy', meanArray)
+
+
+
+
+
 
 if __name__ == "__main__":
     main()
