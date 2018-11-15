@@ -17,15 +17,6 @@ import tslib.src.tsUtils as tsUtils
 
 def make_df(combinedTS, meanTS, N, M, p, name):
 
-	timeSteps=N*M
-	# train/test split
-	trainProp = 0.9
-	M1 = int(trainProp * M)
-	M2 = M - M1
-
-	trainPoints = N*M1
-	testPoints = N*M2
-
 	# train/test split
 	trainProp = 0.9
 	M1 = int(trainProp * M)
@@ -45,7 +36,7 @@ def make_df(combinedTS, meanTS, N, M, p, name):
 	meanTS = tsUtils.normalize(meanTS, max, min)
 
 	# produce timestamps
-	timestamps = np.arange('2017-09-10 20:30:00', timeSteps, dtype='datetime64[1m]') # arbitrary start date
+	timestamps = np.arange('1900-01-01', timeSteps, dtype='datetime64[D]') # arbitrary start date
 
 	# split the data
 	trainDataMaster = combinedTS[0:trainPoints] # need this as the true realized values for comparisons later
@@ -55,7 +46,7 @@ def make_df(combinedTS, meanTS, N, M, p, name):
 	(trainData, pObservation) = tsUtils.randomlyHideValues(copy.deepcopy(trainDataMaster), p)
 
 	# now further hide consecutive entries for a very small fraction of entries in the eventual training matrix
-	# (trainData, pObservation) = tsUtils.randomlyHideConsecutiveEntries(copy.deepcopy(trainData), 0.9, int(M1 * 0.25), M1)
+	(trainData, pObservation) = tsUtils.randomlyHideConsecutiveEntries(copy.deepcopy(trainData), 0.9, int(M1 * 0.25), M1)
 
 	# interpolating Nans with linear interpolation
 	#trainData = tsUtils.nanInterpolateHelper(trainData)
@@ -80,15 +71,18 @@ def make_df(combinedTS, meanTS, N, M, p, name):
 	testDF = pd.DataFrame(index=testTimestamps, data={key1: testData})
 	meanTestDF = pd.DataFrame(index=testTimestamps, data={key1: meanTestData})
 
-	os.mkdir(name)
+	# if not os.path.isdir("name"):
+	# 	os.mkdir(name)
 
-	trainMasterDF.to_pickle('./'+name+'/trainMasterDF.pkl')
-	trainDF.to_pickle('./'+name+'/trainDF.pkl')
-	meanTrainDF.to_pickle('./'+name+'/meanTrainDF.pkl')
-	testDF.to_pickle('./'+name+'/testDF.pkl')
-	meanTestDF.to_pickle('./'+name+'/meanTestDF.pkl')
+	# trainMasterDF.to_pickle('./'+name+'/trainMasterDF.pkl')
+	# trainDF.to_pickle('./'+name+'/trainDF.pkl')
+	# meanTrainDF.to_pickle('./'+name+'/meanTrainDF.pkl')
+	# testDF.to_pickle('./'+name+'/testDF.pkl')
+	# meanTestDF.to_pickle('./'+name+'/meanTestDF.pkl')
 
-def loaded_test(trainMasterDF, trainDF, meanTrainDF, testDF, meanTestDF, N, M, nbrSingValuesToKeep, pObservation):
+	return (trainMasterDF, trainDF, testDF)
+
+def loaded_test(trainMasterDF, trainDF, meanTrainDF, testDF, meanTestDF, N, M, nbrSingValuesToKeep, pObservation, means = True):
 
 	# mod = SVDModel(key1, nbrSingValuesToKeep, N, M1, probObservation=pObservation, svdMethod='numpy', otherSeriesKeysArray=[], includePastDataOnly=True)
 	# mod.fit(trainDF)
@@ -127,17 +121,30 @@ def loaded_test(trainMasterDF, trainDF, meanTrainDF, testDF, meanTestDF, N, M, n
 	    prediction = mod.predict(pd.DataFrame(data={}), keyToSeriesDFNew, bypassChecks=False)
 	    forecastArray.append(prediction)
 
-	print(" RMSE (prediction vs mean) = %f" %tsUtils.rmse(meanTestDF[key1].values, forecastArray))
+	if means: print(" RMSE (prediction vs mean) = %f" %tsUtils.rmse(meanTestDF[key1].values, forecastArray))
 	print(" RMSE (prediction vs obs)  = %f" %tsUtils.rmse(testDF[key1].values, forecastArray))
 
 	print("Plotting...")
 	plt.plot(np.concatenate((trainMasterDF[key1].values, testDF[key1].values), axis=0), color='gray', label='Observed')
-	plt.plot(np.concatenate((meanTrainDF[key1].values, meanTestDF[key1].values), axis=0), color='red', label='True Means')
+	if means: plt.plot(np.concatenate((meanTrainDF[key1].values, meanTestDF[key1].values), axis=0), color='red', label='True Means')
 	plt.plot(np.concatenate((imputedDf[key1].values, forecastArray), axis=0), color='blue', label='Forecasts')
 	plt.axvline(x=len(trainDF), linewidth=1, color='black', label='Training End')
 	legend = plt.legend(loc='upper left', shadow=True)
-	plt.title('Single Time Series (ARMA + Periodic + Trend) - $p = %.2f$' %p)
+	# plt.title('Single Time Series (ARMA + Periodic + Trend) - $p = %.2f$' %p)
 	plt.show()
+
+def csv_test(filename, N, M, takeoff, name):
+	fullDF = pd.read_csv(filename)
+	combinedTS = np.array(fullDF[fullDF.columns[1]])[:-takeoff]
+	print(len(combinedTS))
+
+	(trainMasterDF, trainDF, testDF) = make_df(combinedTS, combinedTS, N=N, M=M, p=1.0, name=name)
+
+	loaded_test(trainMasterDF, trainDF, trainDF, testDF, testDF, N, M, 5, 1.0, False)
+
+
+
+
 
 def test(combinedTS, meanTS, N, M, p=1.0):
 	
@@ -233,18 +240,20 @@ def test(combinedTS, meanTS, N, M, p=1.0):
 	plt.title('Single Time Series (ARMA + Periodic + Trend) - $p = %.2f$' %p)
 	plt.show()
 
-# for obs, mean, name in [('../harmobs.npy', '../harmmean.npy', 'harmtrend'),('../negexpsdobs.npy', '../negexpsdmean.npy', 'negexp'), ('../sdharmonicobs.npy','../sdharmonicmean.npy','harmvar')]:
+# for obs, mean, name in [('armaobs.npy', 'armamean.npy', 'arma'), ('harmonic.npy', 'harmonic.npy', 'harmonic'), ('trend.npy', 'trend.npy', 'trend')]:#('../harmobs.npy', '../harmmean.npy', 'harmtrend'),('../negexpsdobs.npy', '../negexpsdmean.npy', 'negexp'), ('../sdharmonicobs.npy','../sdharmonicmean.npy','harmvar')]:
 # 	obsts = np.load(obs)
 # 	meants = np.load(mean)
 # 	make_df(obsts, meants, 100, 1000, 1.0, name)
 
-for name in ['harmtrend', 'negexp', 'harmvar']:
-	nbrSingValuesToKeep=5
-	pObservation=1.0
-	trainMasterDF = pd.read_pickle('./'+name+'/trainMasterDF.pkl')
-	trainDF = pd.read_pickle('./'+name+'/trainDF.pkl')
-	meanTrainDF = pd.read_pickle('./'+name+'/meanTrainDF.pkl')
-	testDF = pd.read_pickle('./'+name+'/testDF.pkl')
-	meanTestDF = pd.read_pickle('./'+name+'/meanTestDF.pkl')
+# for name in ['arma', 'harmonic', 'trend']:
+# 	nbrSingValuesToKeep=5
+# 	pObservation=1.0
+# 	trainMasterDF = pd.read_pickle('./'+name+'/trainMasterDF.pkl')
+# 	trainDF = pd.read_pickle('./'+name+'/trainDF.pkl')
+# 	meanTrainDF = pd.read_pickle('./'+name+'/meanTrainDF.pkl')
+# 	testDF = pd.read_pickle('./'+name+'/testDF.pkl')
+# 	meanTestDF = pd.read_pickle('./'+name+'/meanTestDF.pkl')
 
-	loaded_test(trainMasterDF, trainDF, meanTrainDF, testDF, meanTestDF, 100, 1000, nbrSingValuesToKeep, pObservation)
+# 	loaded_test(trainMasterDF, trainDF, meanTrainDF, testDF, meanTestDF, 100, 1000, nbrSingValuesToKeep, pObservation)
+
+csv_test(filename='example_wp_log_peyton_manning.csv', N=50, M=58, takeoff=5, name='peyton')

@@ -519,114 +519,201 @@ def main():
 
 	# (observedArray, meanArray, errorArray) = gA.generate(arLags, maLags, startingArray, timeSteps, noiseMean, noiseSD)
 	
-	timeSteps=100000
+	timeSteps=100*1000
 
-	ar, ma = ([-1.0, 1.337, -0.715, 0.191, -0.026, 0.001], [-1.0, 3.054, -3.731, 2.279, -0.696, 0.085])
+	# ar, ma = ([-1.0, 1.337, -0.715, 0.191, -0.026, 0.001], [-1.0, 3.054, -3.731, 2.279, -0.696, 0.085])
 	
-	# trend = trendData([(gT.linearTrendFn, 0.35, -2.5), (gT.logTrendFn, 2.0*float(1.0/N*M), -2.5), (gT.negExpTrendFn, 2.0*float(1.0/N*M), -2.5)], N*M)
+	# # trend = trendData([(gT.linearTrendFn, 0.35, -2.5), (gT.logTrendFn, 2.0*float(1.0/N*M), -2.5), (gT.negExpTrendFn, 2.0*float(1.0/N*M), -2.5)], N*M)
+	# ar, ma = ([1.0, .25,.2],[])#
+	# ar, ma = ([1.0, .7875,.1125],[])
+	# ar, ma = ([-1.0, 1.1, -0.484, 0.107, -0.012, 0.001], [])
+	# ar, ma = ([-1.0, 1.526, -0.931, 0.284, -0.043, 0.003], [])
 
-	data, mean = armaData(ar, ma, 2.0, timeSteps, startingArray=None)
+	# ar,ma = generateStationaryARMALags(5,0)
+	# while abs(1+sum(ar))<.4 or abs(1+sum(ar))>.6 or ar[-1]==0:
+	# 	ar,ma = generateStationaryARMALags(5,0)
+	# print(ar,ma)
 
-	data=data
-	sineCoeffs = [10, 5, -6.25, 7.5]#[35.0, 23.0, 15.0]
-	sinePeriods = [12, 3, 4, 6]#[1.35, 2.10, .75]
+	# ar,ma = ([-1.0, 2.798, -3.132, 1.753, -0.491, 0.055], [])
 
-	cosineCoeffs = []#[50.0, 37.0]
-	cosinePeriods = []#[1.0, 3.0]
+	# data, mean = armaData(ar, ma, 1.0, timeSteps, startingArray=None)
 
-	f= gH.generate(sineCoeffs, sinePeriods, cosineCoeffs, cosinePeriods, timeSteps)
-	mean+=f
-	data+=f
-	plt.plot(data)
-	plt.title('ARMA with Strong Harmonic Trend')
-	plt.show()
+	# data=data
+	# sineCoeffs = [10.7, 5.5, -6.25, 7.5, -4.67, 11.2, 2.65, -5.8, 13.7, 9.0]
+	# sinePeriods = [12.2, 30.3, 4.4, 6.9, 2.6, 9.4, 7.4, 8.3, 2.9, 25.2]
 
-	np.save('harmobs.npy', data)
-	np.save('harmmean.npy', mean)
+	# cosineCoeffs = []#[50.0, 37.0]
+	# cosinePeriods = []#[1.0, 3.0]
 
+	# f= gH.generate(sineCoeffs, sinePeriods, cosineCoeffs, cosinePeriods, timeSteps)
+	# # # mean+=f
+	# # # data+=f
+
+	# errorArray = np.random.normal(0.0, 1.0, timeSteps)
+
+	# # data+=errorArray
+	# f+=errorArray
+
+
+	# plt.plot(data)
+	# plt.show()
+
+	# np.save('./rigortest/single/ar25.npy', data)
+
+
+	# plt.plot(f)
+	# plt.show()
+
+	# np.save('armaobs.npy', data)
+	# np.save('armamean.npy', mean)
+	# np.save('harmonic.npy', f)
+
+
+	def trendDataTest(timeSteps):
+
+	    dampening = 2.0*float(1.0/timeSteps)
+	    power = 0.35
+	    displacement = -2.5
+
+	    f1 = gT.linearTrendFn
+	    data = gT.generate(f1, power=power, displacement=displacement, timeSteps=timeSteps)
+
+	    f2 = gT.logTrendFn
+	    data += gT.generate(f2, dampening=dampening, displacement=displacement, timeSteps=timeSteps)
+
+	    f3 = gT.negExpTrendFn
+	    data += gT.generate(f3, dampening=dampening, displacement=displacement, timeSteps=timeSteps)
+
+	    plt.plot(data)
+	    plt.show()
+
+	    return data
+
+	def trendDataTest2(timeSteps):
+
+	    dampening = 2.0*float(1.0/timeSteps)
+	    power = 0.35
+	    displacement = -2.5
+
+	    f1 = gT.linearTrendFn
+	    data = gT.generate(f1, power=.35, displacement=displacement, timeSteps=timeSteps)
+
+	    f2 = gT.logTrendFn
+	    data += gT.generate(f2, dampening=dampening, displacement=-2.5, timeSteps=timeSteps)
+
+	    f3 = gT.negExpTrendFn
+	    data += 1*gT.generate(f3, dampening=2.5*dampening, displacement=4, timeSteps=timeSteps)
+
+	    f4 = gT.negExpTrendFn
+	    data += gT.generate(f3, dampening=5*dampening, displacement=20, timeSteps=timeSteps)
+
+	    data+= np.random.normal(0.0, 2.0, timeSteps)
+
+	    plt.plot(data)
+	    plt.show()
+
+	    np.save('trend.npy', data)
+
+	    return data
+
+
+	# trendDataTest2(100000)
 
 # #=====
 # 	timeSteps=100000
 
 
-	sineCoeffs = [2, .5, -.2, 1]#[35.0, 23.0, 15.0]
-	sinePeriods = [12, 3, 4, 6]#[1.35, 2.10, .75]
+# 	sineCoeffs = [2, .5, -.2, 1]#[35.0, 23.0, 15.0]
+# 	sinePeriods = [12, 3, 4, 6]#[1.35, 2.10, .75]
 
-	cosineCoeffs = []#[50.0, 37.0]
-	cosinePeriods = []#[1.0, 3.0]
+# 	cosineCoeffs = []#[50.0, 37.0]
+# 	cosinePeriods = []#[1.0, 3.0]
 
-	sdfunc = gH.generate(sineCoeffs, sinePeriods, cosineCoeffs, cosinePeriods, timeSteps)
-	plt.plot(sdfunc)
-	plt.title('Error Stdev over Time')
-	plt.ylabel('Error Stdev')
-	plt.show()
+# 	sdfunc = gH.generate(sineCoeffs, sinePeriods, cosineCoeffs, cosinePeriods, timeSteps)
+# 	plt.plot(sdfunc)
+# 	plt.title('Error Stdev over Time')
+# 	plt.ylabel('Error Stdev')
+# 	plt.show()
 
-	ar, ma = ([-1.0, 1.337, -0.715, 0.191, -0.026, 0.001], [-1.0, 3.054, -3.731, 2.279, -0.696, 0.085])
+# 	ar, ma = ([-1.0, 1.337, -0.715, 0.191, -0.026, 0.001], [-1.0, 3.054, -3.731, 2.279, -0.696, 0.085])
 
-	startingArray = np.zeros(np.max([len(ar), len(ma)]))
+# 	startingArray = np.zeros(np.max([len(ar), len(ma)]))
 
-	noiseMean=0.0
+# 	noiseMean=0.0
 	
-	observedArray, meanArray, errorArray = gAv.generate(ar, ma, startingArray, timeSteps, noiseMean, 1.0, sdfunc)
-	plt.plot(observedArray)
-	plt.title('ARMA with Harmonic Error Stdev')
-	plt.show()
+# 	observedArray, meanArray, errorArray = gAv.generate(ar, ma, startingArray, timeSteps, noiseMean, 1.0, sdfunc)
+# 	plt.plot(observedArray)
+# 	plt.title('ARMA with Harmonic Error Stdev')
+# 	plt.show()
 
-	np.save('sdharmonicobs.npy', observedArray)
-	np.save('sdharmonicmean.npy', meanArray)
-# # # #====
-# 	timeSteps=100000
-	N=100
-	M=1000
-
-
-	dampening = 5.0*float(1.0/timeSteps)
-	power = 0.35
-	displacement =0.5
+# 	np.save('sdharmonicobs.npy', observedArray)
+# 	np.save('sdharmonicmean.npy', meanArray)
+# # # # #====
+# # 	timeSteps=100000
+# 	N=100
+# 	M=1000
 
 
-	f1 = gT.linearTrendFn
-	data = gT.generate(f1, power=power, displacement=displacement, timeSteps=timeSteps)
+# 	dampening = 5.0*float(1.0/timeSteps)
+# 	power = 0.35
+# 	displacement =0.5
 
-	f2 = gT.logTrendFn
-	data += gT.generate(f2, dampening=dampening, displacement=displacement, timeSteps=timeSteps)
 
-	f3 = gT.negExpTrendFn
-	data = gT.generate(f3, dampening=dampening, displacement=displacement, timeSteps=timeSteps)
+	# f1 = gT.linearTrendFn
+	# data = gT.generate(f1, power=.5, displacement=0.0, timeSteps=timeSteps)
 
-	sdfunc = data
+	# errorArray = np.random.normal(0.0, 1.0, timeSteps)
 
-	plt.plot(sdfunc)
-	plt.title('Error Stdev over Time')
-	plt.ylabel('Error Stdev')
-	plt.show()
+	# data+=errorArray
+
+	# plt.plot(data)
+	# plt.show()
+
+	# np.save('./rigortest/single/sqrt.npy', data)
+
+
+
+# 	f2 = gT.logTrendFn
+# 	data += gT.generate(f2, dampening=dampening, displacement=displacement, timeSteps=timeSteps)
+
+# 	f3 = gT.negExpTrendFn
+# 	data = gT.generate(f3, dampening=dampening, displacement=displacement, timeSteps=timeSteps)
+
+# 	sdfunc = data
+
+# 	plt.plot(sdfunc)
+# 	plt.title('Error Stdev over Time')
+# 	plt.ylabel('Error Stdev')
+# 	plt.show()
 	
-	ar, ma = ([-1.0, 1.337, -0.715, 0.191, -0.026, 0.001], [-1.0, 3.054, -3.731, 2.279, -0.696, 0.085])
+# 	ar, ma = ([-1.0, 1.337, -0.715, 0.191, -0.026, 0.001], [-1.0, 3.054, -3.731, 2.279, -0.696, 0.085])
 
-	startingArray = np.zeros(np.max([len(ar), len(ma)]))
+# 	startingArray = np.zeros(np.max([len(ar), len(ma)]))
 
-	noiseMean=0.0
+# 	noiseMean=0.0
 	
-	observedArray, meanArray, errorArray = gAv.generate(ar, ma, startingArray, timeSteps, noiseMean, 1.0, sdfunc)
+# 	observedArray, meanArray, errorArray = gAv.generate(ar, ma, startingArray, timeSteps, noiseMean, 1.0, sdfunc)
 
-	plt.plot(observedArray)
-	plt.title('ARMA with Exponentially Decaying Stdev')
-	plt.show()
+# 	plt.plot(observedArray)
+# 	plt.title('ARMA with Exponentially Decaying Stdev')
+# 	plt.show()
 
-	np.save('negexpsdobs.npy', observedArray)
-	np.save('negexpsdmean.npy', meanArray)
+# 	np.save('negexpsdobs.npy', observedArray)
+# 	np.save('negexpsdmean.npy', meanArray)
 
-	# harms= (np.load('harmobs.npy'), np.load('harmmean.npy'))
-	# sdharms = (np.load('sdharmonicobs.npy'), np.load('sdharmonicmean.npy'))
-	# negexp= (np.load('negexpsdobs.npy'), np.load('negexpsdmean.npy'))
+# 	# harms= (np.load('harmobs.npy'), np.load('harmmean.npy'))
+# 	# sdharms = (np.load('sdharmonicobs.npy'), np.load('sdharmonicmean.npy'))
+# 	# negexp= (np.load('negexpsdobs.npy'), np.load('negexpsdmean.npy'))
 
-	# data = [harms, sdharms, negexp]
-	# for i in range(len(data)):
-	# 	# testARMAStandardDev(data[i], str(i))
-	# 	testARMANumSingVals(data[i], str(i))
+# 	# data = [harms, sdharms, negexp]
+# 	# for i in range(len(data)):
+# 	# 	# testARMAStandardDev(data[i], str(i))
+# 	# 	testARMANumSingVals(data[i], str(i))
 
-	# for series_func, series_name in [(arma_harmonic_variance, 'harmVar'), (neg_exp_variance, 'negExp')]:
-	# 	threedplot(series_func, series_name)
+# 	# for series_func, series_name in [(arma_harmonic_variance, 'harmVar'), (neg_exp_variance, 'negExp')]:
+# 	# 	threedplot(series_func, series_name)
+
+
 
 
 if __name__ == "__main__":
