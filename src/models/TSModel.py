@@ -6,18 +6,14 @@ from sqlalchemy import create_engine
 import io
 class TSmodel(object):
     # kSingularValuesToKeep:    (int) the number of singular values to retain
-    # T0:                       (int) the number of entries below which the model will simply give the average.
-    # T:                        (int) the maximum number of entries for each SVD model
+    # T0:                       (int) the number of entries below which the model will not be trained.
+    # T:                        (int) Number of rows in each submodel
     # gamma:                    (float) (0,1) fraction of T after which the model is updated
+    # rectFactor:               (int) the ration of no. columns to the number of rows in each sub-model
 
-    def __init__(self, kSingularValuesToKeep, T=int(1e4), gamma=0.2, T0=1000, NoRows=False, rectFactor=10):
+    def __init__(self, kSingularValuesToKeep, L=int(1e3), gamma=0.2, T0=1000, rectFactor=10):
         self.kSingularValuesToKeep = kSingularValuesToKeep
-        if NoRows:
-            self.T = int(T ** 2 * rectFactor)
-            self.L = int(T)
-        else:
-            self.T = T
-            self.L = np.sqrt(T)
+        self.T = int(T ** 2 * rectFactor)
         self.gamma = gamma
         self.models = {}
         self.T0 = T0
@@ -148,7 +144,7 @@ class TSmodel(object):
                 Model.updateSVD(D, 'UP')
                 self.MUpdateIndex = Model.N * Model.M + Model.start
 
-    def writeTable(self, df, tableName, host="localhost", database="querytime_test", user="aalomar", password="AAmit32lids"):
+    def writeTable(self, df, tableName, host="localhost", database="", user="", password=""):
         engine = create_engine('postgresql+psycopg2://' + user + ':'+ password+ '@'+ host+ '/' + database)
 
         df.head(0).to_sql(tableName , engine, if_exists='replace', index=True, index_label = 'rowID')  # truncates the table
@@ -160,7 +156,7 @@ class TSmodel(object):
         cur.copy_from(output, tableName, null="")  # null values become ''
         conn.commit()
 
-    def WriteModel(self, ModelName = 'model', host = "localhost",database="querytime_test", user="aalomar", password="AAmit32lids"):
+    def WriteModel(self, ModelName = 'model', host = "localhost",database="", user="", password=""):
         if len(self.models) == 0:
             return
         N = self.L
