@@ -13,7 +13,8 @@ class TSmodel(object):
 
     def __init__(self, kSingularValuesToKeep, L=int(1e3), gamma=0.2, T0=1000, rectFactor=10):
         self.kSingularValuesToKeep = kSingularValuesToKeep
-        self.T = int(T ** 2 * rectFactor)
+        self.L = int(L)
+        self.T = int((L ** 2) * rectFactor)
         self.gamma = gamma
         self.models = {}
         self.T0 = T0
@@ -95,7 +96,7 @@ class TSmodel(object):
             initEntries = self.TimeSeries[
                           (self.T / 2) - self.TimeSeriesIndex % (self.T/2): self.T - self.TimeSeriesIndex %
                                                                                      (self.T/2)]
-            start = self.TimeSeriesIndex - self.TimeSeriesIndex % (self.T / 2)
+            start = self.TimeSeriesIndex - self.TimeSeriesIndex % (self.T / 2) - (self.T / 2) 
             if ModelIndex != 0: assert len(initEntries) == self.T / 2
             rect = 1
             if lenEntriesSinceCons == self.T/2 or ModelIndex == 0:
