@@ -4,7 +4,6 @@
 #
 ######################################################
 import numpy as np
-from tslib.src.algorithms.pymf.svd import SVD as pSVD
 from tslib.src import tsUtils
 
 class SVDWrapper:
@@ -34,19 +33,7 @@ class SVDWrapper:
     def decompose(self):
 
         # use the pymf library
-        if (self.method == 'pymf'):
-            pMod = pSVD(self.matrix)
-            pMod.factorize()
-            self.s = []
-            for i in range(0, np.min(np.shape(pMod.S))):
-                self.s.append(pMod.S[i, i])
-
-            self.U = pMod.U[:, :]
-            self.V = pMod.V[:, :]
-
-        # default is numpy's linear algebra library
-        else: 
-            (self.U, self.s, self.V) = np.linalg.svd(self.matrix, full_matrices=False)
+        (self.U, self.s, self.V) = np.linalg.svd(self.matrix, full_matrices=False)
 
         # correct the dimensions of V
         self.V = self.V.T

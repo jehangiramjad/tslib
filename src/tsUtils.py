@@ -6,6 +6,55 @@
 import numpy as np
 from sklearn.metrics import mean_squared_error
 import copy
+from numpy.linalg import qr  as qr
+
+
+def updateSVD(D, uk, sk, vk):
+    vk = vk.T
+    m = vk.shape[1]
+    d = m+D.shape[1]
+    D_k = np.dot(np.dot(D.T, uk), np.diag(1 / sk))
+    vkh = np.zeros([len(sk), d])
+    vkh[:, :m] = vk
+    vkh[:, m:d] = D_k.T
+
+    return uk, sk, vkh.T
+
+
+def updateSVD2(D, uk, sk, vk):
+    vk = vk.T
+    k,m = vk.shape
+    n,p = D.shape
+    # memory intensive? nxn dot nxp
+    D_h = np.dot(np.eye(n)- np.dot(uk,uk.T),D)
+    # Qr of n X p matrix ~ relatively easy
+    Qd,Rd = qr(D_h)
+
+    A_h = np.zeros([p+k,p+k])
+    A_h[:k,:k] = np.diag(sk)
+    A_h[:k,k:k+p] = np.dot(uk.T,D)
+    A_h[k:k+p, k:k+p] = Rd
+    # SVD of p+k X p+k matrix ~ relatively easy
+    ui, si, vi = np.linalg.svd(A_h, full_matrices=False)
+    uk_h = ui[:,:k]
+    sk_h = si[:k]
+    vk_h = vi[:k,:]
+
+    sk_u = sk_h
+
+    # matirx mult. n X (k+p) by (k+p) X k
+    #uk_u = np.dot(np.concatenate((uk,Qd),1),uk_h)
+    uk_u = np.zeros([n, k+p])
+    uk_u[:,:k] = uk
+    uk_u[:, k:k+p] = Qd
+    uk_u = np.dot(uk_u,uk_h)
+
+    vk_u = np.zeros([m+p,k+p])
+    vk_u[:m,:k] = vk.T
+    vk_u[m:m+p, k:k+p] = np.eye(p)
+
+    vk_2 = np.dot(vk_u,vk_h.T)
+    return uk_u, sk_u, vk_2
 
 def arrayToMatrix(npArray, nRows, nCols):
 
@@ -114,7 +163,7 @@ def randomlyHideConsecutiveEntries(array, pObservationRow, longestStretch, gap):
         i += gap
 
     p_obs = float(count)/float(n)
-    print(p_obs, countStart, n, pObservationRow)
+
     return (array, 1.0 - p_obs)
 
 

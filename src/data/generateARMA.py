@@ -5,7 +5,7 @@
 ######################################################
 import numpy as np
 
-def generate(arLagsArray, maLagsArray, startingArray, timeSteps, noiseMean, noiseSD):
+def generate(arLagsArray, maLagsArray, startingArray, timeSteps, noiseMean, noiseSD, tStart = 0):
 
 	p = len(arLagsArray)
 	q = len(maLagsArray)

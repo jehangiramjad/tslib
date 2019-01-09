@@ -7,7 +7,6 @@ import copy
 import numpy as np
 import pandas as pd
 from tslib.src.algorithms.svdWrapper import SVDWrapper as SVD
-
 from tslib.src import tsUtils
 
 class SVDModel(object):
@@ -23,7 +22,7 @@ class SVDModel(object):
     #                               the time series in 'otherSeriesKeysArray' will include the latest data point.
     #                               Note: the time series of interest (seriesToPredictKey) will never include 
     #                               the latest data-points for prediction
-    def __init__(self, seriesToPredictKey, kSingularValuesToKeep, N, M, probObservation=1.0, svdMethod='numpy', otherSeriesKeysArray=[], includePastDataOnly=True):
+    def __init__(self, seriesToPredictKey, kSingularValuesToKeep, N, M, probObservation=1.0, svdMethod='numpy', otherSeriesKeysArray=[], includePastDataOnly=True, start = 0, TimesUpdated = 0, TimesReconstructed =0 ):
 
         self.seriesToPredictKey = seriesToPredictKey
         self.otherSeriesKeysArray = otherSeriesKeysArray
@@ -31,7 +30,9 @@ class SVDModel(object):
 
         self.N = N
         self.M = M
-
+        self.start = start
+        self.TimesUpdated = TimesUpdated
+        self.TimesReconstructed = TimesReconstructed
         self.kSingularValues = kSingularValuesToKeep
         self.svdMethod = svdMethod
 
@@ -40,7 +41,9 @@ class SVDModel(object):
         self.sk = None
         self.matrix = None
         self.lastRowObservations = None
-
+        self.Ukw = None
+        self.Vkw = None
+        self.skw = None
         self.p = probObservation
 
         self.weights = None
@@ -50,38 +53,7 @@ class SVDModel(object):
     # DO NOT call directly
     def _computeWeights(self):
         
-        # if (self.lastRowObservations is None):
-        #     raise Exception('Do not call _computeWeights() directly. It should only be accessed via class methods.')
 
-        # # need to decide how to produce weights based on whether the N'th data points are to be included for the other time series or not
-        # # for the seriesToPredictKey we only look at the past. For others, we could be looking at the current data point in time as well.
-        
-        # matrixDim1 = (self.N * len(self.otherSeriesKeysArray)) + self.N-1
-        # matrixDim2 = np.shape(self.Uk)[1]# this is the number of singular values selected
-        # eachTSRows = self.N
-
-        # if (self.includePastDataOnly == True):
-        #     matrixDim1 = ((self.N - 1) * len(self.otherSeriesKeysArray)) + self.N-1
-        #     eachTSRows = self.N - 1
-        #     U = np.zeros([matrixDim1, matrixDim2])
-
-        #     i = 0
-        #     j = 0
-        #     while (i < matrixDim1):
-        #         U[i : i+ eachTSRows, :] = self.Uk[j : j + self.N - 1, : ] 
-
-        #         i += eachTSRows
-        #         j += self.N
-        # else:
-        #     U = self.Uk[0:-1, :]
-
-        # matrixInverse = tsUtils.pInverseMatrixFromSVD(self.sk, U, self.Vk, probability=self.p)
-        # self.weights = np.dot(matrixInverse.T, (1.0/self.p) * self.lastRowObservations.T)
-
-        ### This is now the same as ALS
-        ## this is an expensive step because we are computing the SVD all over again 
-        ## however, currently, there is no way around it since this is NOT the same matrix as the full
-        ## self.matrix, i.e. we have fewer (or just one less) rows
         if (self.lastRowObservations is None):
             raise Exception('Do not call _computeWeights() directly. It should only be accessed via class methods.')
 
@@ -103,7 +75,7 @@ class SVDModel(object):
 
             rowIndex = 0
             matrixInd = 0
-            print(eachTSRows)
+
             while (rowIndex < matrixDim1):
                 newMatrix[rowIndex: rowIndex + eachTSRows] = self.matrix[matrixInd: matrixInd +eachTSRows]
 
@@ -111,9 +83,9 @@ class SVDModel(object):
                 matrixInd += self.N
 
         svdMod = SVD(newMatrix, method='numpy')
-        (s, U, V) = svdMod.reconstructMatrix(self.kSingularValues, returnMatrix=False)
+        (self.skw, self.Ukw, self.Vkw) = svdMod.reconstructMatrix(self.kSingularValues, returnMatrix=False)
 
-        newMatrixPInv = tsUtils.pInverseMatrixFromSVD(s, U, V, probability=self.p)
+        newMatrixPInv = tsUtils.pInverseMatrixFromSVD(self.skw, self.Ukw, self.Vkw, probability=self.p)
         self.weights = np.dot(newMatrixPInv.T, self.lastRowObservations.T)
 
     # return the imputed matrix
@@ -122,9 +94,6 @@ class SVDModel(object):
         setAllKeys.add(self.seriesToPredictKey)
 
         single_ts_rows = self.N
-        matrix_cols = self.M
-        matrix_rows = len(setAllKeys) * single_ts_rows
-
         dataDict = {}
         rowIndex = 0
         for key in self.otherSeriesKeysArray:
@@ -135,6 +104,25 @@ class SVDModel(object):
         dataDict.update({self.seriesToPredictKey: self.matrix[rowIndex*single_ts_rows: (rowIndex+1)*single_ts_rows, :].flatten('F')})
 
         return pd.DataFrame(data=dataDict)
+
+    def denoisedTS(self, ind, range = True):
+
+        NewColsDenoised = tsUtils.matrixFromSVD(self.sk, self.Uk, self.Vk, probability=self.p).flatten(1)
+        if range:
+            assert len(ind) == 2
+            return NewColsDenoised[ind[0]:ind[1]]
+        else:
+
+            return NewColsDenoised[ind]
+
+
+    def denoisedDFNew(self,D,updateMethod = 'folding-in', missingValueFill = True):
+        assert (len(D) % self.N == 0)
+        p = len(D)/self.N
+        self.updateSVD(D,updateMethod)
+        NewColsDenoised = tsUtils.matrixFromSVD(self.sk, self.Uk, self.Vk[-p:,:], probability=self.p)
+
+        return NewColsDenoised.flatten(1)
 
 
     # this internal method assigns the data (provided to fit()) to the class variables to help with computations
@@ -150,6 +138,7 @@ class SVDModel(object):
         if (missingValueFill == True):
             # impute with the least informative value (middle)
             max = np.nanmax(keyToSeriesDF)
+
             min = np.nanmin(keyToSeriesDF)
             diff = 0.5*(min + max)
             keyToSeriesDF = keyToSeriesDF.fillna(value=diff)
@@ -187,16 +176,56 @@ class SVDModel(object):
     def fit(self, keyToSeriesDF):
 
         # assign data to class variables
-        self._assignData(keyToSeriesDF, missingValueFill=True)
 
-        # now produce a thresholded/de-noised matrix. this will over-write the original data matrix
+        self._assignData(keyToSeriesDF, missingValueFill=True)
+        # now produce a thresholdedthresholded/de-noised matrix. this will over-write the original data matrix
         svdMod = SVD(self.matrix, method='numpy')
         (self.sk, self.Uk, self.Vk) = svdMod.reconstructMatrix(self.kSingularValues, returnMatrix=False)
-
         self.matrix = tsUtils.matrixFromSVD(self.sk, self.Uk, self.Vk, probability=self.p)
-
         # set weights
         self._computeWeights()
+
+
+
+    def updateSVD(self,D, method = 'folding-in', missingValueFill = True):
+        assert (len(D) % self.N == 0)
+        if (missingValueFill == True):
+            # impute with the least informative value (middle)
+            max = np.nanmax(D)
+            if np.isnan(max): max = 0
+            min = np.nanmin(D)
+            if np.isnan(min): min = 0
+            diff = 0.5*(min + max)
+            D[np.isnan(D)] = diff
+
+        D = D.reshape([self.N,int(len(D)/self.N)])
+
+        assert D.shape[0] == self.N
+        assert D.shape[1] <= D.shape[0]
+        if method == 'UP':
+            self.Uk, self.sk, self.Vk = tsUtils.updateSVD2(D, self.Uk, self.sk, self.Vk)
+            self.M = self.Vk.shape[0]
+            self.Ukw, self.skw, self.Vkw = tsUtils.updateSVD2(D[:-1,:], self.Ukw, self.skw, self.Vkw)
+        elif method == 'folding-in':
+            self.Uk, self.sk, self.Vk = tsUtils.updateSVD(D, self.Uk, self.sk ,self.Vk )
+            self.M = self.Vk.shape[0]
+            self.Ukw, self.skw, self.Vkw = tsUtils.updateSVD(D[:-1, :], self.Ukw, self.skw, self.Vkw)
+        # elif method == 'Full':
+        #     raise ValueError
+        #     self.matrix = np.concatenate((self.matrix,D),1)
+        #     U, S, V = np.linalg.svd(self.matrix, full_matrices=False)
+        #     self.sk = S[0:self.kSingularValues]
+        #     self.Uk = U[:, 0:self.kSingularValues]
+        #     self.Vk = V[0:self.kSingularValues,:]
+        #     self.Vk = self.Vk.T
+        #     self.M = self.Vk.shape[0]
+        else:
+            raise ValueError
+        self.TimesUpdated +=1
+
+        newMatrixPInv = tsUtils.pInverseMatrixFromSVD(self.skw, self.Ukw, self.Vkw, probability=self.p)
+        self.lastRowObservations = np.append(self.lastRowObservations,D[-1,:])
+        self.weights = np.dot(newMatrixPInv.T, self.lastRowObservations.T)
 
 
 
