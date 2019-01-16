@@ -4,6 +4,7 @@ import psycopg2
 from  tslib.src.models.tsSVDModel import SVDModel
 from sqlalchemy import create_engine
 import io
+from math import ceil
 class TSmodel(object):
     # kSingularValuesToKeep:    (int) the number of singular values to retain
     # T0:                       (int) the number of entries below which the model will not be trained.
@@ -25,26 +26,61 @@ class TSmodel(object):
         self.MUpdateIndex = 0
 
     def UpdateModel(self, NewEntries, patch = False):
+
+        # fill out the last sub model if update is bigger than T/2
+        if len(self.models) == 0: UpdateChunk = int(np.sqrt(self.T0))
+        else:    UpdateChunk = 2*self.L
+
+        fillFactor = (self.TimeSeriesIndex % (self.T/2))
+
+        if len(self.models) > 0 and fillFactor>0:
+            FillElements = (self.T/2 - fillFactor) * (fillFactor>0)
+
+            if FillElements > 0:
+                FillEntries = NewEntries[:FillElements]
+                i = -1
+                for i in range((len(FillEntries)/(UpdateChunk))):
+                    self.updateTS(FillEntries[i * UpdateChunk: (i + 1) * UpdateChunk])
+                    self.fitModels()
+
+                if len(FillEntries[(i+1) * UpdateChunk:]) != 0:
+
+                    self.updateTS(FillEntries[(i+1) * UpdateChunk:])
+                    self.fitModels()
+                #print 'after Fill: ', self.TimeSeriesIndex, self.MUpdateIndex
+                NewEntries = NewEntries[FillElements:]
+
+        #Create new models in patch
+
         ML = len(NewEntries)/(self.T/2)
         i = -1
-        if ML <=1 : ML = 2
-        for i in range(1,ML):
-            if i == 1:
+        SkipNext = False
+        for i in range(ML):
+            if SkipNext:
+                SkipNext = False
+                continue
+            if len(self.models) == 0:
                 self.updateTS(NewEntries[: self.T])
+                SkipNext =  True
             else:
                 self.updateTS(NewEntries[i * (self.T/2): (i+1) * (self.T/2)])
             self.fitModels()
 
         if patch: return
 
-        if len(self.models) == 0: UpdateChunk = int(np.sqrt(self.T0))
-        else:    UpdateChunk = self.L
-
+        # Update Last Model
         NewEntries = NewEntries[(i + 1) * (self.T/2):]
-        for i in range(int(len(NewEntries)/(UpdateChunk))):
+        i = -1
 
-            self.updateTS( NewEntries[i * UpdateChunk: (i+1) * UpdateChunk])
+        for i in range(len(NewEntries)/(UpdateChunk)):
+            self.updateTS(NewEntries[i * UpdateChunk: (i + 1) * UpdateChunk])
             self.fitModels()
+
+        if len(NewEntries[(i+1) * UpdateChunk:]) == 0:
+            return
+
+        self.updateTS(NewEntries[(i+1) * UpdateChunk:])
+        self.fitModels()
 
     def updateTS(self, NewEntries):
         # Update the time series with the new entries.
@@ -68,6 +104,7 @@ class TSmodel(object):
 
         else:
             if n < self.T: self.TimeSeries[:self.T - n] = self.TimeSeries[-self.T + n:]
+
             self.TimeSeries[-n:] = NewEntries
 
         if len(self.TimeSeries) > self.T:
@@ -83,12 +120,11 @@ class TSmodel(object):
         # fit/update New/existing Model or do nothing
 
         lenEntriesSinceCons = self.TimeSeriesIndex - self.ReconIndex
-
+        lenEntriesSinceLastUpdate = self.TimeSeriesIndex - self.MUpdateIndex
         if self.TimeSeriesIndex < self.T0:
-            pass
-        if lenEntriesSinceCons > self.T/2 and ModelIndex != 0:
-
-            print lenEntriesSinceCons, self.T
+            return
+        if lenEntriesSinceLastUpdate > self.T/2 and ModelIndex != 0:
+            print self.TimeSeriesIndex, self.MUpdateIndex,[(m.N,m.M, m.start) for m in self.models.values()]
             raise Exception('Model should be updated before T/2 values are assigned')
 
         if ModelIndex not in self.models:
@@ -96,12 +132,14 @@ class TSmodel(object):
             initEntries = self.TimeSeries[
                           (self.T / 2) - self.TimeSeriesIndex % (self.T/2): self.T - self.TimeSeriesIndex %
                                                                                      (self.T/2)]
-            start = self.TimeSeriesIndex - self.TimeSeriesIndex % (self.T / 2) - (self.T / 2) 
+            start = self.TimeSeriesIndex - self.TimeSeriesIndex % (self.T / 2) - self.T / 2
             if ModelIndex != 0: assert len(initEntries) == self.T / 2
             rect = 1
             if lenEntriesSinceCons == self.T/2 or ModelIndex == 0:
                 initEntries = self.TimeSeries[:]
                 start = max(self.TimeSeriesIndex - self.T, 0)
+
+
             N = int(np.sqrt(len(initEntries) / (self.rectFactor / rect)))
             M = len(initEntries) / N
             self.ReconIndex = N * M + start
@@ -123,13 +161,13 @@ class TSmodel(object):
             M = TSlength / N
             TSeries = self.TimeSeries[-TSlength:]
             TSeries = TSeries[:N * M]
-            print len(TSeries), ModelIndex,  Model.start, self.models[ModelIndex-1].start
-            self.models[ModelIndex] = SVDModel('t1', self.kSingularValuesToKeep, N, M, start=start,
+
+            self.models[ModelIndex] = SVDModel('t1', self.kSingularValuesToKeep, N, M, start=Model.start,
                                                TimesReconstructed=Model.TimesReconstructed + 1,
                                                TimesUpdated=Model.TimesUpdated)
 
             self.models[ModelIndex].fit(pd.DataFrame(data={'t1': TSeries}))
-            self.ReconIndex = N * M + start
+            self.ReconIndex = N * M + Model.start
             self.MUpdateIndex = self.ReconIndex
 
         else:
@@ -145,7 +183,7 @@ class TSmodel(object):
                 Model.updateSVD(D, 'UP')
                 self.MUpdateIndex = Model.N * Model.M + Model.start
 
-    def writeTable(self, df, tableName, host="localhost", database="", user="", password=""):
+    def writeTable(self, df, tableName, host="localhost", database="querytime_test", user="aalomar", password="AAmit32lids"):
         engine = create_engine('postgresql+psycopg2://' + user + ':'+ password+ '@'+ host+ '/' + database)
 
         df.head(0).to_sql(tableName , engine, if_exists='replace', index=True, index_label = 'rowID')  # truncates the table
@@ -157,7 +195,7 @@ class TSmodel(object):
         cur.copy_from(output, tableName, null="")  # null values become ''
         conn.commit()
 
-    def WriteModel(self, ModelName = 'model', host = "localhost",database="", user="", password=""):
+    def WriteModel(self, ModelName = 'model', host = "localhost",database="querytime_test", user="aalomar", password="AAmit32lids"):
         if len(self.models) == 0:
             return
         N = self.L
@@ -277,7 +315,7 @@ class TSmodel(object):
         if dataPoints is None and (index is None or index == self.TimeSeriesIndex + 1):
             TSDF = pd.DataFrame(data={'t1': self.TimeSeries[-self.L:]})
 
-            UsedModels = [a[1] for a in self.models.items()[-NoModels:]]
+            UsedModels = [a for a in self.models.values()[-NoModels:]]
             predicions = np.array([mod.predict(pd.DataFrame(data={}), TSDF) for mod in UsedModels])
             return np.mean(predicions)
 
@@ -291,7 +329,7 @@ class TSmodel(object):
 
         elif dataPoints is not None:
             TSDF  = pd.DataFrame(data={'t1': dataPoints})
-            UsedModels = [a[1] for a in self.models.items()[-NoModels:]]
+            UsedModels = [a for a in self.models.values()[-NoModels:]]
             predicions = np.array([mod.predict(pd.DataFrame(data={}), TSDF) for mod in UsedModels])
             return np.mean(predicions)
         else:

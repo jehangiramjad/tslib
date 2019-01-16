@@ -1,11 +1,14 @@
 import numpy as np
 import pandas as pd
-from  tslib.src.models.tsSVDModelc import SVDModel
+from  tslib.src.models.tsSVDModel import SVDModel
 
-cdef class  TSmodelc(object):
-    cdef int T, L,T0, TimeSeriesIndex, rectFactor, MUpdateIndex, kSingularValuesToKeep, ReconIndex
-    cdef float gamma
-    def __cinit__(self, int kSingularValuesToKeep,  int T=int(1e4), float gamma=0.2, int T0=1000, int NoRows=False, int rectFactor=10):
+class TSmodel(object):
+    # kSingularValuesToKeep:    (int) the number of singular values to retain
+    # T0:                       (int) the number of entries below which the model will simply give the average.
+    # T:                        (int) the maximum number of entries for each SVD model
+    # gamma:                    (float) (0,1) fraction of T after which the model is updated
+
+    def __init__(self, kSingularValuesToKeep, T=int(1e4), gamma=0.2, T0=1000, NoRows=False, rectFactor=10):
         self.kSingularValuesToKeep = kSingularValuesToKeep
         if NoRows:
             self.T = int(T ** 2 * rectFactor)
@@ -14,31 +17,21 @@ cdef class  TSmodelc(object):
             self.T = T
             self.L = np.sqrt(T)
         self.gamma = gamma
+        self.models = {}
         self.T0 = T0
+        self.TimeSeries = None
         self.TimeSeriesIndex = 0
         self.ReconIndex = 0
         self.rectFactor = rectFactor
         self.MUpdateIndex = 0
 
-class TSmodel(TSmodelc):
-    # kSingularValuesToKeep:    (int) the number of singular values to retain
-    # T0:                       (int) the number of entries below which the model will simply give the average.
-    # T:                        (int) the maximum number of entries for each SVD model
-    # gamma:                    (float) (0,1) fraction of T after which the model is updated
-
-    def __init__(self, kSingularValuesToKeep, T=int(1e4), gamma=0.2, T0=1000, NoRows=False, rectFactor=10):
-        TSmodelc.__cinit__(kSingularValuesToKeep, T, gamma, T0, NoRows, rectFactor)
-        self.models = {}
-        self.TimeSeries = None
-
-
     def UpdateModel(self, NewEntries):
-        cdef int ML = len(NewEntries)/self.T
-        cdef int i = 0
+        ML = len(NewEntries)/self.T
+        i = 0
         for i in range(ML):
             self.updateTS(NewEntries[i * self.T: (i+1) * self.T])
             self.fitModels()
-        cdef int UpdateChunk =  self.L
+        UpdateChunk =  self.L
         NewEntries = NewEntries[(i + 1) * self.T:]
         for i in range(int(len(NewEntries)/(UpdateChunk))):
             self.updateTS( NewEntries[i * UpdateChunk: (i+1) * UpdateChunk])
@@ -47,7 +40,7 @@ class TSmodel(TSmodelc):
     def updateTS(self, NewEntries):
         # Update the time series with the new entries.
         # only keep the last T entries
-        cdef int n = len(NewEntries)
+        n = len(NewEntries)
         self.TimeSeriesIndex = self.TimeSeriesIndex + n
         if self.TimeSeriesIndex == n:
             self.TimeSeries = NewEntries
@@ -69,12 +62,12 @@ class TSmodel(TSmodelc):
 
 
     def fitModels(self):
-        cdef int N, M, ModelLength
+
         # Determine which model to fit
-        cdef int ModelIndex = max((self.TimeSeriesIndex - 1) / (self.T / 2) - 1, 0)
+        ModelIndex = max((self.TimeSeriesIndex - 1) / (self.T / 2) - 1, 0)
         # fit/update New/existing Model or do nothing
-        cdef int start = ModelIndex * self.T / 2
-        cdef int  lenEntriesSinceCons = self.TimeSeriesIndex - self.ReconIndex
+        start = ModelIndex * self.T / 2
+        lenEntriesSinceCons = self.TimeSeriesIndex - self.ReconIndex
 
         if self.TimeSeriesIndex < self.T0:
             pass
