@@ -28,8 +28,8 @@ class TSmodel(object):
     def UpdateModel(self, NewEntries, patch = False):
 
         # fill out the last sub model if update is bigger than T/2
-        if len(self.models) == 0: UpdateChunk = int(np.sqrt(self.T0))
-        else:    UpdateChunk = 2*self.L
+        if len(self.models) == 0 and len(NewEntries) < self.T/2: UpdateChunk = int(np.sqrt(self.T0))
+        else:    UpdateChunk = int(0.25*self.L**2)
 
         fillFactor = (self.TimeSeriesIndex % (self.T/2))
 
@@ -53,15 +53,16 @@ class TSmodel(object):
         #Create new models in patch
 
         ML = len(NewEntries)/(self.T/2)
+        # print 'ML: ',ML
         i = -1
         SkipNext = False
         for i in range(ML):
             if SkipNext:
                 SkipNext = False
                 continue
-            if len(self.models) == 0:
+            if len(self.models) == 0 and len(NewEntries)>= self.T:
                 self.updateTS(NewEntries[: self.T])
-                SkipNext =  True
+                SkipNext = True
             else:
                 self.updateTS(NewEntries[i * (self.T/2): (i+1) * (self.T/2)])
             self.fitModels()
@@ -71,8 +72,11 @@ class TSmodel(object):
         # Update Last Model
         NewEntries = NewEntries[(i + 1) * (self.T/2):]
         i = -1
-
+        # print self.TimeSeriesIndex
+        # print 'NON-PATCH start', len(NewEntries) , ' points left'
+        # print ' Update in ', len(NewEntries) / (UpdateChunk), 'iterations', UpdateChunk
         for i in range(len(NewEntries)/(UpdateChunk)):
+            # print 'update ', i,': from', i * UpdateChunk, 'to', (i + 1) * UpdateChunk
             self.updateTS(NewEntries[i * UpdateChunk: (i + 1) * UpdateChunk])
             self.fitModels()
 
@@ -118,7 +122,7 @@ class TSmodel(object):
         # Determine which model to fit
         ModelIndex = max((self.TimeSeriesIndex - 1) / (self.T / 2) - 1, 0)
         # fit/update New/existing Model or do nothing
-
+        # print 'Model being updated ', ModelIndex, self.TimeSeriesIndex
         lenEntriesSinceCons = self.TimeSeriesIndex - self.ReconIndex
         lenEntriesSinceLastUpdate = self.TimeSeriesIndex - self.MUpdateIndex
         if self.TimeSeriesIndex < self.T0:
