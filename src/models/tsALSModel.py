@@ -100,3 +100,6 @@ class ALSModel(SVDModel):
     def predict(self, otherKeysToSeriesDFNew, predictKeyToSeriesDFNew, bypassChecks=False):
 
     	return super(ALSModel, self).predict(otherKeysToSeriesDFNew, predictKeyToSeriesDFNew, bypassChecks)
+
+    def updateSVD(self, D):
+        return super(ALSModel, self).updateSVD(self, D)
