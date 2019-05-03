@@ -3,7 +3,7 @@ sys.path.append("../../..")
 sys.path.append("..")
 sys.path.append(os.getcwd())
 
-from matplotlib import pyplot as plt
+#from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
 import copy
@@ -15,7 +15,7 @@ from  tslib.src.models.tsSVDModel import SVDModel
 from  tslib.src.models.tsALSModel import ALSModel
 import tslib.src.tsUtils as tsUtils
 
-def make_df(combinedTS, meanTS, N, M, p, name):
+def make_df_unnorm(combinedTS, meanTS, N, M, p, name, scale='day'):
 	timeSteps = N*M
 
 	# train/test split
@@ -37,7 +37,90 @@ def make_df(combinedTS, meanTS, N, M, p, name):
 	meanTS = tsUtils.normalize(meanTS, max, min)
 
 	# produce timestamps
-	timestamps = np.arange('1900-01-01', timeSteps, dtype='datetime64[D]') # arbitrary start date
+	if scale == 'day': timestamps = np.arange('1900-01-01', timeSteps, dtype='datetime64[D]') # arbitrary start date
+	elif scale == 'hour': timestamps = np.arange('1900-01-01', timeSteps, dtype='datetime64[h]')
+	elif scale == 'minute': timestamps = np.arange('1900-01-01', timeSteps, dtype='datetime64[m]')
+
+	# split the data
+	trainDataMaster = combinedTS[0:trainPoints] # need this as the true realized values for comparisons later
+	meanTrainData = meanTS[0:trainPoints] # this is only needed for various statistical comparisons later
+
+	# randomly hide training data: choose between randomly hiding entries or randomly hiding consecutive entries
+	(trainData, pObservation) = tsUtils.randomlyHideValues(copy.deepcopy(trainDataMaster), p)
+
+	# now further hide consecutive entries for a very small fraction of entries in the eventual training matrix
+	(trainData, pObservation) = tsUtils.randomlyHideConsecutiveEntries(copy.deepcopy(trainData), 0.9, int(M1 * 0.25), M1)
+
+	# interpolating Nans with linear interpolation
+	#trainData = tsUtils.nanInterpolateHelper(trainData)
+
+	# test data and hidden truth
+	testData = combinedTS[-1*testPoints: ]
+	meanTestData = meanTS[-1*testPoints: ] # this is only needed for various statistical comparisons
+
+	# time stamps
+	trainTimestamps = timestamps[0:trainPoints]
+	testTimestamps = timestamps[-1*testPoints: ]
+
+	# once we have interpolated, pObservation should be set back to 1.0
+	pObservation = 1.0
+
+	# trainDataMaster = unnnormalize(trainDataMaster, max, min)
+	# trainData = unnnormalize(trainData, max, min)
+	# meanTrainData = unnnormalize(meanTrainData, max, min)
+	# testData = unnnormalize(testData, max, min)
+	# meantestData = unnnormalize(meantestData, max, min)
+
+
+
+
+	# create pandas df
+	key1 = 't1'
+	a = pd.to_datetime(trainTimestamps, errors = 'ignore')
+	trainMasterDF = pd.DataFrame(index=a, data={key1: trainDataMaster}) # needed for reference later
+	trainDF = pd.DataFrame(index=a, data={key1: trainData})
+	meanTrainDF = pd.DataFrame(index=a, data={key1: meanTrainData})
+
+	b = pd.to_datetime(testTimestamps, errors = 'ignore')
+	testDF = pd.DataFrame(index=b, data={key1: testData})
+	meanTestDF = pd.DataFrame(index=b, data={key1: meanTestData})
+
+	# if not os.path.isdir("name"):
+	# 	os.mkdir(name)
+
+	# trainMasterDF.to_pickle('./'+name+'/trainMasterDF.pkl')
+	# trainDF.to_pickle('./'+name+'/trainDF.pkl')
+	# meanTrainDF.to_pickle('./'+name+'/meanTrainDF.pkl')
+	# testDF.to_pickle('./'+name+'/testDF.pkl')
+	# meanTestDF.to_pickle('./'+name+'/meanTestDF.pkl')
+
+	return (trainMasterDF, trainDF, testDF, meanTrainDF, meanTestDF, max, min)
+
+def make_df(combinedTS, meanTS, N, M, p, name, scale='day'):
+	timeSteps = N*M
+
+	# train/test split
+	trainProp = 0.9
+	M1 = int(trainProp * M)
+	M2 = M - M1
+
+	trainPoints = N*M1
+	testPoints = N*M2
+
+	max1 = np.nanmax(combinedTS)
+	min1 = np.nanmin(combinedTS)
+	max2 = np.nanmax(meanTS)
+	min2 = np.nanmin(meanTS)
+	max = np.max([max1, max2])
+	min = np.min([min1, min2])
+
+	combinedTS = tsUtils.normalize(combinedTS, max, min)
+	meanTS = tsUtils.normalize(meanTS, max, min)
+
+	# produce timestamps
+	if scale == 'day': timestamps = np.arange('1900-01-01', timeSteps, dtype='datetime64[D]') # arbitrary start date
+	elif scale == 'hour': timestamps = np.arange('1900-01-01', timeSteps, dtype='datetime64[h]')
+	elif scale == 'minute': timestamps = np.arange('1900-01-01', timeSteps, dtype='datetime64[m]')
 
 	# split the data
 	trainDataMaster = combinedTS[0:trainPoints] # need this as the true realized values for comparisons later
@@ -83,7 +166,23 @@ def make_df(combinedTS, meanTS, N, M, p, name):
 	# testDF.to_pickle('./'+name+'/testDF.pkl')
 	# meanTestDF.to_pickle('./'+name+'/meanTestDF.pkl')
 
-	return (trainMasterDF, trainDF, testDF)
+	return (trainMasterDF, trainDF, testDF, meanTrainDF, meanTestDF)
+
+def normalize(array, max, min):
+
+    diff = 0.5*(min + max)
+    div = 0.5 * (max - min)
+
+    array = (array - diff)/div
+    return array
+
+def unnnormalize(array, max, min):
+
+    diff = 0.5*(min + max)
+    div = 0.5 * (max - min)
+
+    array = (array*div + diff)
+    return array
 
 def loaded_test(trainMasterDF, trainDF, meanTrainDF, testDF, meanTestDF, N, M, nbrSingValuesToKeep, pObservation, means = True):
 
