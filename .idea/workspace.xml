@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8c226028-438f-4777-9cef-62e90ef6c8cf" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/database/SqlImplementation.py" afterPath="$PROJECT_DIR$/src/database/SqlImplementation.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/models/TSModel.py" afterPath="$PROJECT_DIR$/src/models/TSModel.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests_local/TrainModel.py" afterPath="$PROJECT_DIR$/tests_local/TrainModel.py" />
     </list>
     <ignored path="tslib.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,9 +30,33 @@
       <file leaf-file-name="TrainModel.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tests_local/TrainModel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="660">
-              <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="30" selection-end-column="111" />
+            <state relative-caret-position="901">
+              <caret line="112" column="0" selection-start-line="112" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="get_imp_r.pyx" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests_local/get_imp_r.pyx">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="571">
+              <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="setup.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests_local/setup.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="17" />
+              <folding>
+                <element signature="e#0#17#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -39,7 +64,7 @@
       <file leaf-file-name="TestFWOnline.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests_local/TestFWOnline.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-120">
+            <state relative-caret-position="594">
               <caret line="18" column="7" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="7" />
               <folding />
             </state>
@@ -56,35 +81,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SqlImplementation.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/database/SqlImplementation.py">
+      <file leaf-file-name="TSModel.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/models/TSModel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="924">
-              <caret line="31" column="146" selection-start-line="31" selection-start-column="146" selection-end-line="31" selection-end-column="146" />
+            <state relative-caret-position="3003">
+              <caret line="91" column="28" selection-start-line="91" selection-start-column="28" selection-end-line="91" selection-end-column="28" />
               <folding>
-                <element signature="e#0#52#0" expanded="true" />
+                <element signature="e#0#18#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UpdateTimeTest.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests_local/UpdateTimeTest.py">
+      <file leaf-file-name="SqlImplementation.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/database/SqlImplementation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1716">
-              <caret line="52" column="27" selection-start-line="52" selection-start-column="27" selection-end-line="52" selection-end-column="27" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TSModel.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/models/TSModel.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="627">
-              <caret line="19" column="64" selection-start-line="19" selection-start-column="19" selection-end-line="19" selection-end-column="64" />
+            <state relative-caret-position="231">
+              <caret line="16" column="98" selection-start-line="16" selection-start-column="98" selection-end-line="16" selection-end-column="98" />
               <folding>
-                <element signature="e#0#18#0" expanded="true" />
+                <element signature="e#0#52#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -146,6 +161,9 @@
         <option value="$PROJECT_DIR$/src/database/DBInterface.py" />
         <option value="$PROJECT_DIR$/src/database/SqlImplementation.py" />
         <option value="$PROJECT_DIR$/src/models/TSModel.py" />
+        <option value="$PROJECT_DIR$/tests_local/testdata/get_imp_r.py" />
+        <option value="$PROJECT_DIR$/tests_local/setup.py" />
+        <option value="$PROJECT_DIR$/tests_local/get_imp_r.pyx" />
         <option value="$PROJECT_DIR$/tests_local/TrainModel.py" />
       </list>
     </option>
@@ -252,18 +270,19 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../TimeSeriesCleaning/Adaptive SVD imputing - Abdullah" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Abdul\Dropbox (MIT)\Time Series Project\tslib2\tests" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Abdul\OneDrive\Documents\GitHub\tslib_local\tslib\tests\results" />
       <recent name="C:\Users\Abdul\OneDrive\Documents\GitHub\tslib_local\tslib\tests" />
       <recent name="C:\Users\Abdul\OneDrive\Documents\GitHub\tslib_local\tests" />
+      <recent name="C:\Users\Abdul\Dropbox (MIT)\Time Series Project\tslib2\tests" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Abdul\Dropbox (MIT)\GitHub\tslib\tests_local" />
       <recent name="C:\Users\Abdul\Dropbox (MIT)\Time Series Project\tslib2\tests" />
     </key>
   </component>
@@ -534,15 +553,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-13" y="-13" width="3026" height="1946" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35216507" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947624" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2637028" sideWeight="0.5013532" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947624" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947624" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26492083" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2637028" sideWeight="0.49864683" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947624" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -552,6 +570,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -587,35 +606,11 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="13" />
+      <option name="time" value="17" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tests/testScriptSingleTimeseries.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.PyCharm2016.2/system/python_stubs/343686690/numpy/core/multiarray.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="348">
-          <caret line="560" column="4" selection-start-line="560" selection-start-column="4" selection-end-line="560" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/tsSVDModel.py" />
-    <entry file="file://$PROJECT_DIR$/tslib/src/data/generateTrend.py" />
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/site-packages/numpy/lib/nanfunctions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="149" column="4" selection-start-line="149" selection-start-column="4" selection-end-line="149" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tslib/src/models/tsALSModel.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python27/Lib/site-packages/numpy/lib/nanfunctions.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="418">
@@ -674,13 +669,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/results/Results_ht_vs_ModelSize_patch_9_0.9.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="4" column="93" selection-start-line="4" selection-start-column="93" selection-end-line="4" selection-end-column="93" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/results/Results_ht_vs_ModelSize_patch_9_0.9.csv" />
     <entry file="file://$PROJECT_DIR$/tests/testScriptSingleTimeSeriesMultipleModels.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1040">
@@ -703,21 +692,11 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/TestFWOnline.py" />
-    <entry file="file://$PROJECT_DIR$/tests/results/plothistograms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="15" selection-end-column="10" />
-          <folding>
-            <element signature="e#0#19#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/results/plothistograms.py" />
     <entry file="file://$PROJECT_DIR$/tests/results/plotResults.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="990">
           <caret line="32" column="10" selection-start-line="32" selection-start-column="10" selection-end-line="32" selection-end-column="10" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -727,23 +706,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1139">
           <caret line="45" column="25" selection-start-line="45" selection-start-column="25" selection-end-line="45" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests_local/TestFWOnline.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-120">
-          <caret line="18" column="7" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/database/DBInterface.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="16" column="11" selection-start-line="16" selection-start-column="11" selection-end-line="16" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -751,6 +713,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2264">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests_local/TestFWOnline.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="594">
+          <caret line="18" column="7" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="7" />
           <folding />
         </state>
       </provider>
@@ -763,10 +732,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/database/DBInterface.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="16" column="11" selection-start-line="16" selection-start-column="11" selection-end-line="16" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests_local/get_imp_r.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python27/Lib/site-packages/IPython/core/interactiveshell.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="387">
+          <caret line="2877" column="0" selection-start-line="2877" selection-start-column="0" selection-end-line="2877" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests_local/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#17#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/database/SqlImplementation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="924">
-          <caret line="31" column="146" selection-start-line="31" selection-start-column="146" selection-end-line="31" selection-end-column="146" />
+        <state relative-caret-position="231">
+          <caret line="16" column="98" selection-start-line="16" selection-start-column="98" selection-end-line="16" selection-end-column="98" />
           <folding>
             <element signature="e#0#52#0" expanded="true" />
           </folding>
@@ -775,19 +778,45 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/models/TSModel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="627">
-          <caret line="19" column="64" selection-start-line="19" selection-start-column="19" selection-end-line="19" selection-end-column="64" />
+        <state relative-caret-position="3003">
+          <caret line="91" column="28" selection-start-line="91" selection-start-column="28" selection-end-line="91" selection-end-column="28" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tests_local/get_imp_r.pyx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="571">
+          <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests_local/query_time_range.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="880">
+          <caret line="50" column="23" selection-start-line="50" selection-start-column="23" selection-end-line="50" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests_local/query_time_range_2.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="880">
+          <caret line="50" column="47" selection-start-line="50" selection-start-column="47" selection-end-line="50" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/tests_local/TrainModel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="30" selection-end-column="111" />
-          <folding />
+        <state relative-caret-position="901">
+          <caret line="112" column="0" selection-start-line="112" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

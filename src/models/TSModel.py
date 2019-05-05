@@ -1,10 +1,6 @@
 import numpy as np
 import pandas as pd
-import psycopg2
-from sqlalchemy import create_engine
 from  tslib.src.models.tsSVDModel import SVDModel
-
-import io
 from math import ceil
 from tslib.src.database.DBInterface import Interface
 
@@ -44,7 +40,10 @@ class TSmodel(object):
 
     def update_index(self):
         new_entries = self.get_range(self.TimeSeriesIndex)
-        self.update_model(new_entries)
+
+        if len(new_entries)>0:
+            self.update_model(new_entries)
+        # check if there is un_written models
         self.WriteModel()
 
 
@@ -269,6 +268,7 @@ class TSmodel(object):
 
         lasModel = len(self.models) - 1
         self.db_interface.create_index(tableNames[0], 'tsrow')
+        self.db_interface.create_index(tableNames[0], 'modelno')
         self.db_interface.create_index(tableNames[1], 'tscolumn')
         self.db_interface.create_index(tableNames[2], 'modelno')
         self.db_interface.create_index(tableNames[3], 'modelno')
@@ -368,13 +368,13 @@ class TSmodel(object):
         implement the same singles point query. use get from table function in interface
         """
 
-        modelNo = self.get_model_index(t)
+        modelNo = self.get_model_index(t+1)
         N = self.models[modelNo].N
-        tscolumn = (t) / N
-        tsrow = (t) % N
-        U = self.db_interface.get_U_row(self.model_tables_name+'_u', [tsrow,tsrow], [modelNo,modelNo+1])
-        V = self.db_interface.get_V_row(self.model_tables_name + '_v', [tscolumn, tscolumn])
-        S = self.db_interface.get_S_row(self.model_tables_name + '_s', [modelNo,modelNo+1])
+        tscolumn = t/ N
+        tsrow = t%N
+        U = self.db_interface.get_U_row(self.model_tables_name+'_u', [tsrow,tsrow], [modelNo,modelNo+1],self.kSingularValuesToKeep)
+        V = self.db_interface.get_V_row(self.model_tables_name + '_v', [tscolumn, tscolumn], self.kSingularValuesToKeep)
+        S = self.db_interface.get_S_row(self.model_tables_name + '_s', [modelNo,modelNo+1], self.kSingularValuesToKeep)
         U1 = U[0, :]
         V1 = V[0, :]
         S1 = S[0, :]
@@ -391,8 +391,7 @@ class TSmodel(object):
         """
         coeffs = self.db_interface.get_coeff( self.model_tables_name+'_c_view', 'average')
         no_coeff = len(coeffs)
-        last_obs = self.db_interface.get_time_series(self.time_series_table[0],t-no_coeff, t-1, value_column=self.time_series_table[1], index_col=self.time_series_table[2])
-        last_obs = last_obs[::-1]
+        last_obs = self.db_interface.get_time_series(self.time_series_table[0],t-no_coeff, t-1, value_column=self.time_series_table[1], index_col=self.time_series_table[2], Desc = False)
 
         return np.dot(coeffs[:len(last_obs)].T, last_obs)
 

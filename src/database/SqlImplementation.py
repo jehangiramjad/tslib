@@ -14,7 +14,7 @@ class SqlImplementation(Interface):
         self.password = password
         self.engine = create_engine(driver + '://' + user + ':' + password + '@' + host + '/' + database)
 
-    def get_time_series(self, name, start, end, value_column="ts", index_col='"rowID"'):
+    def get_time_series(self, name, start, end, value_column="ts", index_col='"rowID"', Desc=False):
         """
         query time series table to return time series values from a certain range  [start to end]
         or all values with time stamp/index greter than start  (if end is None)
@@ -29,12 +29,15 @@ class SqlImplementation(Interface):
             sql = 'Select ' + value_column + " from  " + name + " where " + index_col + " >= %s order by "+index_col
             result = self.engine.execute(sql, (start)).fetchall()
         else:
-            sql = 'Select ' + value_column + " from  " + name + " where " + index_col + " >= %s and " + index_col + " <= %s order by " + index_col
+            if not Desc:
+                sql = 'Select ' + value_column + " from  " + name + " where " + index_col + " >= %s and " + index_col + " <= %s order by " + index_col
+            else:
+                sql = 'Select ' + value_column + " from  " + name + " where " + index_col + " >= %s and " + index_col + " <= %s order by " + index_col + ' Desc'
             result = self.engine.execute(sql, (start, end)).fetchall()
 
         return np.array(result)
 
-    def get_U_row(self, table_name, tsrow_range, models_range):
+    def get_U_row(self, table_name, tsrow_range, models_range,k, return_modelno = False):
 
         """
         query the U matrix from the database table '... U_table' created via the index. the query depend on the ts_row
@@ -44,14 +47,16 @@ class SqlImplementation(Interface):
         :param models_range: (list of length 2) start and end index  of the range query predicate on model_no
         :return: (numpy array) queried values for the selected range
         """
-
-        query = "SELECT u1,u2,u3 FROM " + table_name + " WHERE tsrow >= %s and tsrow <= %s and (modelno >= %s and modelno <= %s); "
+        columns = 'u'+ ',u'.join([str(i) for i in range(1, k + 1)])
+        if return_modelno :
+            columns = 'modelno, '+columns
+        query = "SELECT "+ columns +" FROM " + table_name + " WHERE tsrow >= %s and tsrow <= %s and (modelno >= %s and modelno <= %s); "
         result = self.engine.execute(query,
                                      (tsrow_range[0], tsrow_range[1], models_range[0], models_range[1],)).fetchall()
         return np.array(result)
         pass
 
-    def get_V_row(self, table_name, tscol_range):
+    def get_V_row(self, table_name, tscol_range,k,models_range = None, return_modelno = False):
         """
         query the V matrix from the database table '... V_table' created via the index. the query depend on the ts_col
         range [tscol_range[0] to tscol_range[1]]  (inclusive)
@@ -59,12 +64,19 @@ class SqlImplementation(Interface):
         :param tscol_range:(list of length 2) start and end index  of the range query predicate on ts_col
         :return: (numpy array) queried values for the selected range
         """
-        query = "SELECT v1,v2,v3 FROM " + table_name + " WHERE tscolumn >= %s and tscolumn <= %s  "
-        result = self.engine.execute(query, (tscol_range[0], tscol_range[1],)).fetchall()
+        columns = 'v'+ ',v'.join([str(i) for i in range(1, k + 1)])
+        if return_modelno :
+            columns = 'modelno, '+columns
+        if models_range is None:
+            query = "SELECT "+ columns +" FROM " + table_name + " WHERE tscolumn >= %s and tscolumn <= %s ; "
+            result = self.engine.execute(query, (tscol_range[0], tscol_range[1],)).fetchall()
+        else:
+            query = "SELECT " + columns + " FROM " + table_name + " WHERE tscolumn >= %s and tscolumn <= %s and (modelno >= %s and modelno <= %s); "
+            result = self.engine.execute(query, (tscol_range[0], tscol_range[1],models_range[0], models_range[1],)).fetchall()
         return np.array(result)
         pass
 
-    def get_S_row(self, table_name, models_range):
+    def get_S_row(self, table_name, models_range, k, return_modelno = False):
         """
         query the S matrix from the database table '... s_table' created via the index. the query depend on the model
         range [models_range[0] to models_range[1]] ( inclusive)
@@ -72,7 +84,10 @@ class SqlImplementation(Interface):
         :param models_range: (list of length 2) start and end index  of the range query predicate on model_no
         :return: (numpy array) queried values for the selected range
         """
-        query = "SELECT s1,s2,s3 FROM " + table_name + " WHERE modelno >= %s or modelno <= %s;"
+        columns = 's'+ ',s'.join([str(i) for i in range(1,k+1)])
+        if return_modelno :
+            columns = 'modelno, '+columns
+        query = "SELECT "+ columns +" FROM " + table_name + " WHERE modelno >= %s and modelno <= %s;"
         result = self.engine.execute(query, (models_range[0], models_range[1],)).fetchall()
         return np.array(result)
 
@@ -91,7 +106,7 @@ class SqlImplementation(Interface):
         result = self.engine.execute(query).fetchall()
         return np.array(result)
 
-    def create_table(self, table_name, df, primary_key=None, load_data=True, if_exists='replace', include_index=True,
+    def create_table(self, table_name, df, primary_key=None, load_data=True,replace_if_exists = True , include_index=True,
                      index_label="row_id"):
         """
         Create table in the database with the same fields as the given pandas dataframe. Rows in the df will be written to
@@ -101,10 +116,14 @@ class SqlImplementation(Interface):
         :param primary_key: (str) primary key of the table
         :param load_data: (str) primary key of the table
         """
+        # drop table if exists:
+        if replace_if_exists:
+            self.drop_table(table_name)
+
         # create table in database
         conn = self.engine.raw_connection()
         cur = conn.cursor()
-        df.head(0).to_sql(table_name, self.engine, if_exists=if_exists, index=include_index, index_label=index_label)
+        df.head(0).to_sql(table_name, self.engine, index=include_index, index_label=index_label)
 
         query = "ALTER TABLE  %s ADD PRIMARY KEY (%s);" % (table_name, primary_key)
         if primary_key is not None:
@@ -116,13 +135,17 @@ class SqlImplementation(Interface):
             output.seek(0)
             cur.copy_from(output, table_name, null="")  # null values become ''
         conn.commit()
+        conn.close()
 
-    def drop_table(self, table_name,df, primary_key):
+    def drop_table(self, table_name):
         """
-        Drop table from the database
+        Drop table from the database and all its dependents
         :param table_name: (str) name of the table to be created
         :param drop dependency : """
-        pass
+
+        query = " DROP TABLE IF EXISTS " +table_name + " Cascade; "
+
+        self.engine.execute(query)
 
     def create_index(self, table_name, column, index_name='', ):
         """
