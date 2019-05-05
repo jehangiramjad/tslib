@@ -5,8 +5,8 @@
 # You need to ensure that this script is called from
 # the tslib/ parent directory or tslib/tests/ directory:
 #
-# 1. python tests/testScriptsynthControlSVD.py
-# 2. python testScriptsynthControlSVD.py
+# 1. python tests/testScriptSynthControlSVD.py
+# 2. python testScriptSynthControlSVD.py
 #
 #############################################################
 import sys, os

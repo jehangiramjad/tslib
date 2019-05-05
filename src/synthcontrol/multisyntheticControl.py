@@ -4,6 +4,7 @@
 #
 # Implementation based on: 
 # url forthcoming (Paper to appear in ACM Sigmetrics 2019)
+# (http://dna-pubs.cs.columbia.edu/citation/paperfile/230/mRSC.pdf)
 #
 ################################################################
 import numpy as np

@@ -5,8 +5,8 @@
 # You need to ensure that this script is called from
 # the tslib/ parent directory or tslib/tests/ directory:
 #
-# 1. python tests/testScriptsynthControlALS.py
-# 2. python testScriptsynthControlALS.py
+# 1. python tests/testScriptSynthControlALS.py
+# 2. python testScriptSynthControlALS.py
 #
 #############################################################
 import sys, os
