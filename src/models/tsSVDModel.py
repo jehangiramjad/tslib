@@ -51,8 +51,12 @@ class SVDModel(object):
     # run a least-squares regression of the last row of self.matrix and all other rows of self.matrix
     # sets and returns the weights
     # DO NOT call directly
-    def _computeWeights(self):
-        
+    def _computeWeights(self):       
+
+        ### This is now the same as ALS
+        ## this is an expensive step because we are computing the SVD all over again 
+        ## however, currently, there is no way around it since this is NOT the same matrix as the full
+        ## self.matrix, i.e. we have fewer (or just one less) rows
 
         if (self.lastRowObservations is None):
             raise Exception('Do not call _computeWeights() directly. It should only be accessed via class methods.')

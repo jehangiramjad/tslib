@@ -5,8 +5,8 @@
 # You need to ensure that this script is called from
 # the tslib/ parent directory or tslib/tests/ directory:
 #
-# 1. python tests/testScriptsynthControlSVD.py
-# 2. python testScriptsynthControlSVD.py
+# 1. python tests/testScriptSynthControlSVD.py
+# 2. python testScriptSynthControlSVD.py
 #
 #############################################################
 import sys, os
@@ -86,10 +86,8 @@ def basque(filename):
 	# save the denoised training data
 	denoisedDF = rscModel.model.denoisedDF()
 
-	# predict - one step at a time
-	predictions = []
-	for i in range(0, len(testDF)):
-		predictions.append(rscModel.predict(testDF.loc[i:i+1]))
+	# predict - all at once
+	predictions = rscModel.predict(testDF)
 	
 	# plot
 	yearsToPlot = range(yearStart, yearTestEnd, 1)
@@ -165,10 +163,8 @@ def prop99(filename):
 	# save the denoised training data
 	denoisedDF = rscModel.model.denoisedDF()
 
-	# predict - one step at a time
-	predictions = []
-	for i in range(0, len(testDF)):
-		predictions.append(rscModel.predict(testDF.loc[i:i+1]))
+	# predict - all at once
+	predictions = rscModel.predict(testDF)
 	
 	# plot
 	yearsToPlot = range(yearStart, yearTestEnd, 1)
