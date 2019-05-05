@@ -15,6 +15,7 @@ class SqlImplementation(Interface):
         self.engine = create_engine(driver + '://' + user + ':' + password + '@' + host + '/' + database)
 
     def get_time_series(self, name, start, end, value_column="ts", index_col='"rowID"', Desc=False):
+
         """
         query time series table to return time series values from a certain range  [start to end]
         or all values with time stamp/index greter than start  (if end is None)
@@ -33,6 +34,8 @@ class SqlImplementation(Interface):
                 sql = 'Select ' + value_column + " from  " + name + " where " + index_col + " >= %s and " + index_col + " <= %s order by " + index_col
             else:
                 sql = 'Select ' + value_column + " from  " + name + " where " + index_col + " >= %s and " + index_col + " <= %s order by " + index_col + ' Desc'
+
+            sql = 'Select ' + value_column + " from  " + name + " where " + index_col + " >= %s and " + index_col + " <= %s order by " + index_col
             result = self.engine.execute(sql, (start, end)).fetchall()
 
         return np.array(result)
@@ -47,6 +50,7 @@ class SqlImplementation(Interface):
         :param models_range: (list of length 2) start and end index  of the range query predicate on model_no
         :return: (numpy array) queried values for the selected range
         """
+
         columns = 'u'+ ',u'.join([str(i) for i in range(1, k + 1)])
         if return_modelno :
             columns = 'modelno, '+columns
@@ -57,6 +61,8 @@ class SqlImplementation(Interface):
         pass
 
     def get_V_row(self, table_name, tscol_range,k,models_range = None, return_modelno = False):
+
+
         """
         query the V matrix from the database table '... V_table' created via the index. the query depend on the ts_col
         range [tscol_range[0] to tscol_range[1]]  (inclusive)
@@ -64,6 +70,7 @@ class SqlImplementation(Interface):
         :param tscol_range:(list of length 2) start and end index  of the range query predicate on ts_col
         :return: (numpy array) queried values for the selected range
         """
+
         columns = 'v'+ ',v'.join([str(i) for i in range(1, k + 1)])
         if return_modelno :
             columns = 'modelno, '+columns
@@ -74,9 +81,9 @@ class SqlImplementation(Interface):
             query = "SELECT " + columns + " FROM " + table_name + " WHERE tscolumn >= %s and tscolumn <= %s and (modelno >= %s and modelno <= %s); "
             result = self.engine.execute(query, (tscol_range[0], tscol_range[1],models_range[0], models_range[1],)).fetchall()
         return np.array(result)
-        pass
 
     def get_S_row(self, table_name, models_range, k, return_modelno = False):
+
         """
         query the S matrix from the database table '... s_table' created via the index. the query depend on the model
         range [models_range[0] to models_range[1]] ( inclusive)
@@ -106,6 +113,7 @@ class SqlImplementation(Interface):
         result = self.engine.execute(query).fetchall()
         return np.array(result)
 
+
     def create_table(self, table_name, df, primary_key=None, load_data=True,replace_if_exists = True , include_index=True,
                      index_label="row_id"):
         """
@@ -124,6 +132,7 @@ class SqlImplementation(Interface):
         conn = self.engine.raw_connection()
         cur = conn.cursor()
         df.head(0).to_sql(table_name, self.engine, index=include_index, index_label=index_label)
+
 
         query = "ALTER TABLE  %s ADD PRIMARY KEY (%s);" % (table_name, primary_key)
         if primary_key is not None:

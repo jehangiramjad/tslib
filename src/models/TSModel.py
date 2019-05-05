@@ -110,6 +110,7 @@ class TSmodel(object):
             raise Exception('TimeSeries should be updated before T/2 values are assigned')
 
         self.TimeSeriesIndex += n
+
         if self.TimeSeriesIndex == n:
             self.TimeSeries = NewEntries
 
@@ -132,7 +133,6 @@ class TSmodel(object):
         # Determine which model to fit
         ModelIndex = self.get_model_index(self.TimeSeriesIndex)
         # fit/update New/existing Model or do nothing
-
         lenEntriesSinceCons = self.TimeSeriesIndex - self.ReconIndex
         lenEntriesSinceLastUpdate = self.TimeSeriesIndex - self.MUpdateIndex
         if self.TimeSeriesIndex < self.T0:
@@ -143,12 +143,9 @@ class TSmodel(object):
 
         if ModelIndex not in self.models:
 
-            initEntries = self.TimeSeries[
-                          (self.T / 2) - self.TimeSeriesIndex % (self.T / 2): self.T - self.TimeSeriesIndex %
-                                                                                       (self.T / 2)]
+            initEntries = self.TimeSeries[(self.T / 2) - self.TimeSeriesIndex % (self.T / 2): self.T - self.TimeSeriesIndex %(self.T / 2)]
 
-            initEntries = self.TimeSeries[
-                          (self.T / 2) - self.TimeSeriesIndex % (self.T / 2):]
+            initEntries = self.TimeSeries[(self.T / 2) - self.TimeSeriesIndex % (self.T / 2):]
 
             start = self.TimeSeriesIndex - self.TimeSeriesIndex % (self.T / 2) - self.T / 2
 
@@ -167,6 +164,7 @@ class TSmodel(object):
             self.MUpdateIndex = self.ReconIndex
 
             if lenEntriesSinceCons == self.T / 2 or ModelIndex == 0:
+
                 return
         Model = self.models[ModelIndex]
 
@@ -223,6 +221,7 @@ class TSmodel(object):
             else:
                 U_table[i * N:(i + 1) * N, 1:] = m.Uk
                 U_table[i * N:(i + 1) * N, 0] = int(i)
+
         columns = ['modelno'] + ['u' + str(i) for i in range(1, self.kSingularValuesToKeep + 1)]
         udf = pd.DataFrame(columns=columns, data=U_table)
         # udf['tsrow'] = (udf.index - 0.5 * N * udf['modelno']).astype(int)
@@ -245,6 +244,7 @@ class TSmodel(object):
         vdf['tscolumn'] = (vdf.index - 0.5 * M * vdf['modelno']).astype(int)
         self.db_interface.create_table(tableNames[1],vdf,  'row_id', index_label='row_id')
 
+
         s_table = np.zeros([len(self.models), 1 + self.kSingularValuesToKeep])
         for i, m in self.models.items():
             s_table[i, 1:] = m.sk
@@ -253,6 +253,7 @@ class TSmodel(object):
         sdf = pd.DataFrame(columns=columns, data=s_table)
 
         self.db_interface.create_table( tableNames[2], sdf, 'row_id', index_label='row_id')
+
 
         id_c = 0
         W = len(self.models[0].weights)
@@ -321,8 +322,8 @@ class TSmodel(object):
             denoised[count > 0] = denoised[count > 0] / count[count > 0]
             return denoised
 
-
     def predict(self, index=None, method='average', NoModels=None, dataPoints=None):
+
         if NoModels is None: NoModels = len(self.models)
         # if index next predict
 
@@ -350,8 +351,6 @@ class TSmodel(object):
             return 0
             # if not predict till then
             # get models weight and average all predictions
-
-
     def get_prediction(self, t):
         """
         call get_imp or get_fore depending on t
