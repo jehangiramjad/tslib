@@ -4,7 +4,6 @@
 #
 ######################################################
 import numpy as np
-from tslib.src.algorithms.pymf.svd import SVD as pSVD
 from tslib.src import tsUtils
 
 class SVDWrapper:
@@ -13,7 +12,7 @@ class SVDWrapper:
         if (type(matrix) != np.ndarray):
             raise Exception('SVDWrapper required matrix to be of type np.ndarray')
 
-        self.methods = ['numpy', 'pymf']
+        self.methods = ['numpy']
 
         self.matrix = matrix
         self.U = None
@@ -32,21 +31,8 @@ class SVDWrapper:
     # method will set the self.U and self.V singular vector matrices and the singular value array: self.s
     # U, s, V can then be access separately as attributed of the SVDWrapper class
     def decompose(self):
-
-        # use the pymf library
-        if (self.method == 'pymf'):
-            pMod = pSVD(self.matrix)
-            pMod.factorize()
-            self.s = []
-            for i in range(0, np.min(np.shape(pMod.S))):
-                self.s.append(pMod.S[i, i])
-
-            self.U = pMod.U[:, :]
-            self.V = pMod.V[:, :]
-
         # default is numpy's linear algebra library
-        else: 
-            (self.U, self.s, self.V) = np.linalg.svd(self.matrix, full_matrices=False)
+        (self.U, self.s, self.V) = np.linalg.svd(self.matrix, full_matrices=False)
 
         # correct the dimensions of V
         self.V = self.V.T
@@ -106,21 +92,6 @@ class SVDWrapper:
 # print("--")
 # print("--")
 
-
-# mod2 = SVDWrapper(data, method='pymf')
-# mod2.decompose()
-
-# print(mod2.U)
-# print("--")
-# print(mod2.V)
-# print("--")
-# print(mod2.s)
-# print("--")
-
-# recon2 = mod2.reconstructMatrix(N)
-# print(np.mean(data - recon2))
-# print("--")
-# print("--")
 
 # print(mod1.decomposeTopK(10))
 # print(mod2.decomposeTopK(10))

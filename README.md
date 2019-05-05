@@ -9,7 +9,6 @@ numpy
 pandas
 scipy
 sklearn
-pymf (included within the project)
 
 Supported for Python 3+.
 

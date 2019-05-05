@@ -48,35 +48,7 @@ class SVDModel(object):
     # run a least-squares regression of the last row of self.matrix and all other rows of self.matrix
     # sets and returns the weights
     # DO NOT call directly
-    def _computeWeights(self):
-        
-        # if (self.lastRowObservations is None):
-        #     raise Exception('Do not call _computeWeights() directly. It should only be accessed via class methods.')
-
-        # # need to decide how to produce weights based on whether the N'th data points are to be included for the other time series or not
-        # # for the seriesToPredictKey we only look at the past. For others, we could be looking at the current data point in time as well.
-        
-        # matrixDim1 = (self.N * len(self.otherSeriesKeysArray)) + self.N-1
-        # matrixDim2 = np.shape(self.Uk)[1]# this is the number of singular values selected
-        # eachTSRows = self.N
-
-        # if (self.includePastDataOnly == True):
-        #     matrixDim1 = ((self.N - 1) * len(self.otherSeriesKeysArray)) + self.N-1
-        #     eachTSRows = self.N - 1
-        #     U = np.zeros([matrixDim1, matrixDim2])
-
-        #     i = 0
-        #     j = 0
-        #     while (i < matrixDim1):
-        #         U[i : i+ eachTSRows, :] = self.Uk[j : j + self.N - 1, : ] 
-
-        #         i += eachTSRows
-        #         j += self.N
-        # else:
-        #     U = self.Uk[0:-1, :]
-
-        # matrixInverse = tsUtils.pInverseMatrixFromSVD(self.sk, U, self.Vk, probability=self.p)
-        # self.weights = np.dot(matrixInverse.T, (1.0/self.p) * self.lastRowObservations.T)
+    def _computeWeights(self):       
 
         ### This is now the same as ALS
         ## this is an expensive step because we are computing the SVD all over again 

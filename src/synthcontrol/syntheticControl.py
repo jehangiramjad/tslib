@@ -2,7 +2,8 @@
 #
 # Robust Synthetic Control 
 #
-# Implementation based on: https://arxiv.org/abs/1711.06940
+# Implementation based on: 
+# http://www.jmlr.org/papers/volume19/17-777/17-777.pdf
 #
 ################################################################
 import numpy as np
@@ -12,7 +13,7 @@ from tslib.src.models.tsSVDModel import SVDModel
 from tslib.src.models.tsALSModel import ALSModel
 from tslib.src import tsUtils
 
-class RobustSyntheticControl:
+class RobustSyntheticControl(object):
     
     # seriesToPredictKey:       (string) the series of interest (key)
     # kSingularValuesToKeep:    (int) the number of singular values to retain
@@ -59,9 +60,7 @@ class RobustSyntheticControl:
     #                               all series/array MUST be of length >= 1, 
     #                               If longer than 1, then the most recent point will be used (for each series)
     def predict(self, otherKeysToSeriesDFNew):
-    	dummyDF = pd.DataFrame(data={self.seriesToPredictKey: []})
-
-    	prediction = self.model.predict(otherKeysToSeriesDFNew, dummyDF, bypassChecks=True)
+        prediction = np.dot(self.model.weights, otherKeysToSeriesDFNew[self.otherSeriesKeysArray].T)
     	return prediction
 
     # return the synthetic control weights
