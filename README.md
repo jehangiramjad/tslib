@@ -22,7 +22,8 @@ This library also has an implementation for RSC as detailed in http://www.jmlr.o
 This library also has an implementation for mRSC as detailed in http://dna-pubs.cs.columbia.edu/citation/paperfile/230/mRSC.pdf
 
 
-# For documentation, please see the test scripts under the tests/ folder which provide sample usage, often with real datasets.
+# Documenttion:
+Please see the test scripts under the tests/ folder which provide sample usage, often with real datasets.
 
 1. testScriptSingleTimeseries.py: imputing and foreasting a single time series using synthetically generated data. The script uses both the SVD method and ALS.
 
