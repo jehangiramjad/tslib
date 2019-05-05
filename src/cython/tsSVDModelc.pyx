@@ -17,10 +17,10 @@ class SVDModel(object):
     # M:                        (int) the number of columns for the matrix for each series
     # probObservation:          (float) the independent probability of observation of each entry in the matrix
     # svdMethod:                (string) the SVD method to use (optional)
-    # otherSeriesKeysArray:     (array) an array of keys for other series which will be used to predict 
-    # includePastDataOnly:      (Boolean) defaults to True. If this is set to False, 
+    # otherSeriesKeysArray:     (array) an array of keys for other series which will be used to predict
+    # includePastDataOnly:      (Boolean) defaults to True. If this is set to False,
     #                               the time series in 'otherSeriesKeysArray' will include the latest data point.
-    #                               Note: the time series of interest (seriesToPredictKey) will never include 
+    #                               Note: the time series of interest (seriesToPredictKey) will never include
     #                               the latest data-points for prediction
     def __init__(self, seriesToPredictKey, kSingularValuesToKeep, N, M, probObservation=1.0, svdMethod='numpy', otherSeriesKeysArray=[], includePastDataOnly=True, start = 0, TimesUpdated = 0, TimesReconstructed =0 ):
 
@@ -51,19 +51,15 @@ class SVDModel(object):
     # run a least-squares regression of the last row of self.matrix and all other rows of self.matrix
     # sets and returns the weights
     # DO NOT call directly
-    def _computeWeights(self):       
+    def _computeWeights(self):
 
-        ### This is now the same as ALS
-        ## this is an expensive step because we are computing the SVD all over again 
-        ## however, currently, there is no way around it since this is NOT the same matrix as the full
-        ## self.matrix, i.e. we have fewer (or just one less) rows
 
         if (self.lastRowObservations is None):
             raise Exception('Do not call _computeWeights() directly. It should only be accessed via class methods.')
 
         # need to decide how to produce weights based on whether the N'th data points are to be included for the other time series or not
         # for the seriesToPredictKey we only look at the past. For others, we could be looking at the current data point in time as well.
-        
+
         matrixDim1 = (self.N * len(self.otherSeriesKeysArray)) + self.N-1
         matrixDim2 = np.shape(self.matrix)[1]
         eachTSRows = self.N
@@ -110,7 +106,6 @@ class SVDModel(object):
         return pd.DataFrame(data=dataDict)
 
     def denoisedTS(self, ind, range = True):
-
         NewColsDenoised = tsUtils.matrixFromSVD(self.sk, self.Uk, self.Vk, probability=self.p).flatten(1)
         if range:
             assert len(ind) == 2
@@ -168,7 +163,7 @@ class SVDModel(object):
         # finally add the series of interest at the bottom
        # tempMatrix = tsUtils.arrayToMatrix(keyToSeriesDF[self.seriesToPredictKey][-1*T:].values, self.N, matrix_cols)
         self.matrix[seriesIndex*single_ts_rows: (seriesIndex+1)*single_ts_rows, :] = tsUtils.arrayToMatrix(keyToSeriesDF[self.seriesToPredictKey][-1*T:].values, single_ts_rows, matrix_cols)
-        
+
         # set the last row of observations
         self.lastRowObservations = copy.deepcopy(self.matrix[-1, :])
 
@@ -188,7 +183,7 @@ class SVDModel(object):
         self.matrix = tsUtils.matrixFromSVD(self.sk, self.Uk, self.Vk, probability=self.p)
         # set weights
         self._computeWeights()
-
+        self.matrix = None
 
 
     def updateSVD(self,D, method = 'folding-in', missingValueFill = True):
@@ -238,15 +233,15 @@ class SVDModel(object):
     #                               each series/array MUST be of length >= self.N - 1
     #                               If longer than self.N - 1, then the most recent self.N - 1 points will be used
     #                           If includePastDataOnly was set to False in the model, then:
-    #                               all series/array except seriesToPredictKey MUST be of length >= self.N (i.e. includes the current), 
+    #                               all series/array except seriesToPredictKey MUST be of length >= self.N (i.e. includes the current),
     #                               If longer than self.N, then the most recent self.N points will be used
     #
     # predictKeyToSeriesDFNew:   (Pandas dataframe) needs to contain the seriesToPredictKey and self.N - 1 points past points.
-    #                           If more points are provided, the most recent self.N - 1 points are selected.   
+    #                           If more points are provided, the most recent self.N - 1 points are selected.
     #
     # bypassChecks:         (Boolean) if this is set to True, then it is the callee's responsibility to provide
     #                           all required series of appropriate lengths (see above).
-    #                           It is advised to leave this set to False (default).         
+    #                           It is advised to leave this set to False (default).
     def predict(self, otherKeysToSeriesDFNew, predictKeyToSeriesDFNew, bypassChecks=False):
 
         nbrPointsNeeded = self.N - 1

@@ -122,7 +122,7 @@ def randomlyHideValues(array, pObservation):
     for i in range(0, len(array)):
         if (np.random.uniform(0, 1) > pObservation):
             array[i] = np.nan
-            count +=1 
+            count +=1
 
     p_obs = float(count)/float(len(array))
     return (array, 1.0 - p_obs)
@@ -151,7 +151,7 @@ def randomlyHideConsecutiveEntries(array, pObservationRow, longestStretch, gap):
                 toHide = (i + gap) - startingIndex
 
             array[startingIndex: startingIndex + toHide] = np.nan * np.zeros(toHide)
-            
+
             count += toHide
 
             valuesToHide -= toHide
@@ -187,7 +187,7 @@ def nanInterpolateHelper(array):
     return array
 
 #######################################################
-# Testing 
+# Testing
 
 # arr = [1,2.0,3.0,4,5,5,6,7,8,19, 29, 49]
 # arr = np.array(arr)
