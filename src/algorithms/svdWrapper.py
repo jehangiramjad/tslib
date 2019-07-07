@@ -18,6 +18,7 @@ class SVDWrapper:
         self.U = None
         self.V = None
         self.s = None
+        self.next_sigma = 0
         (self.N, self.M) = np.shape(matrix)
 
         if (method not in self.methods):
@@ -50,7 +51,8 @@ class SVDWrapper:
 
         if ((self.U is None) | (self.V is None) | (self.s is None)):
             self.decompose() # first perform the full decomposition
-
+        if k < len(self.s)-1: self.next_sigma = self.s[k]
+        else: self.next_sigma  = 0
         sk = self.s[0:k]
         Uk = self.U[:, 0:k]
         Vk = self.V[:, 0:k]

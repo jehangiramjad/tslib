@@ -67,11 +67,14 @@ def arrayToMatrix(npArray, nRows, nCols):
     return np.reshape(npArray, (nCols, nRows)).T
 
 
-def matrixFromSVD(sk, Uk, Vk, probability=1.0):
+def matrixFromSVD(sk, Uk, Vk, soft_threshold = 0, probability=1.0):
     return (1.0/probability) * np.dot(Uk, np.dot(np.diag(sk), Vk.T))
 
-def pInverseMatrixFromSVD(sk, Uk, Vk, probability=1.0):
+
+def pInverseMatrixFromSVD(sk, Uk, Vk, soft_threshold=0,probability=1.0):
     s = copy.deepcopy(sk)
+    s = s - soft_threshold
+
     for i in range(0, len(s)):
         if (s[i] > 0.0):
             s[i] = 1.0/s[i]
@@ -99,20 +102,35 @@ def rmseMissingData(array1, array2):
     return rmse(subset1, subset2)
 
 
-def normalize(array, max, min):
+def normalize(array, max, min, pos = False):
+    """
 
-    diff = 0.5*(min + max)
-    div = 0.5 * (max - min)
+    :param array:
+    :param max:
+    :param min:
+    :param pos: if true, normalize between 0 and 1
+    :return:
+    """
 
-    array = (array - diff)/div
+
+    if pos:
+        array = (array - min)/(max-min)
+    else:
+        diff = 0.5 * (min + max)
+        div = 0.5 * (max - min)
+        array = (array - diff) / div
     return array
 
-def unnormalize(array, max, min):
+def unnormalize(array, max, min, pos = False):
 
-    diff = 0.5*(min + max)
-    div = 0.5*(max - min)
 
-    array = (array *div) + diff
+    if pos:
+        array = array *(max-min) + min
+    else:
+        diff = 0.5 * (min + max)
+        div = 0.5 * (max - min)
+
+        array = (array * div) + diff
     return array
 
 

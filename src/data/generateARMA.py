@@ -21,7 +21,9 @@ def generate(arLagsArray, maLagsArray, startingArray, timeSteps, noiseMean, nois
 	maxLags = np.max([p, q])
 	outputArray = np.zeros(timeSteps + maxLags)
 	outputArray[0: maxLags] = startingArray
-
+	if len(noiseSD)> 1:
+		noiseSD = [1 for i in range(maxLags)] + list(noiseSD)
+	else: noiseSD = noiseSD[0]
 	errorArray = np.random.normal(noiseMean, noiseSD, timeSteps + maxLags)
 	meanArray = np.zeros(timeSteps + maxLags)
 

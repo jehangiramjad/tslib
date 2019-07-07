@@ -5,7 +5,7 @@ import numpy as np
 import io
 from time import time
 
-class SqlImplementation(Interface):
+class SqlImplementationTSDB(Interface):
     def __init__(self, driver="postgresql", host="localhost", database="querytime_test", user="aalomar",
                  password="AAmit32lids",  k = 3):
         self.host = host
@@ -168,6 +168,9 @@ class SqlImplementation(Interface):
         if primary_key is not None:
             self.engine.execute(query)
         # load content
+        sql = "SELECT create_hypertable('%s', '%s', chunk_time_interval => 2500000);" %(table_name, index_label, )
+        self.engine.execute(sql)
+
         if load_data:
             output = io.BytesIO()
             df.to_csv(output, sep='\t', header=False, index=True, index_label=index_label)

@@ -67,8 +67,8 @@ def arrayToMatrix(npArray, nRows, nCols):
     return np.reshape(npArray, (nCols, nRows)).T
 
 
-def matrixFromSVD(sk, Uk, Vk, probability=1.0):
-    return (1.0/probability) * np.dot(Uk, np.dot(np.diag(sk), Vk.T))
+def matrixFromSVD(sk, Uk, Vk, soft_threshold = 0, probability=1.0):
+    return (1.0/probability) * np.dot(Uk, np.dot(np.diag(sk - soft_threshold ), Vk.T))
 
 def pInverseMatrixFromSVD(sk, Uk, Vk, probability=1.0):
     s = copy.deepcopy(sk)

@@ -5,57 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8c226028-438f-4777-9cef-62e90ef6c8cf" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/TestFW.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/testScriptSingleTimeseriesInc.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tslib/src/models/tsSVDModelc.pyx" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/results/plotResults.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/queryTest2.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tslib/src/models/TSModel.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/testScriptSingleTimeseriesIncHybrid.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tslib/src/algorithms/svdWrapperC.pyx" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/queryTest.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/testdata/GenerateTS.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tslib/src/models/TSmodelc.pyx" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/pymf/greedycur.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/data/generateHarmonics.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/models/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/pymf/kmeans.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/pymf/nndsvd.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/pymf/base.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/svdWrapper.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/pymf/dist.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/data/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/pymf/cmde.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/pymf/snmf.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/pymf/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/alsWrapper.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/pymf/sivm.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/pymf/pca.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/pymf/sivm_gsat.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/pymf/bnmf.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/pymf/sivm_cur.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/tsUtils.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/data/generateTrend.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/pymf/chnmf.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/data/generateARMA.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/pymf/aa.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/models/tsSVDModel.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/pymf/laesa.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/pymf/greedy.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/models/tsALSModel.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/pymf/cnmf.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/pymf/nmf.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/pymf/sivm_sgreedy.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/pymf/svd.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/pymf/cursl.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/synthcontrol/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/pymf/cur.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/pymf/cmeans.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/algorithms/pymf/sivm_search.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/synthcontrol/syntheticControl.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/testScriptSingleTimeseries.py" afterPath="$PROJECT_DIR$/tests/testScriptSingleTimeseries.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/models/TSPI.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/database/RepositoryInterface.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/models/nohupq.out" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/algorithms/svdWrapper.py" afterPath="$PROJECT_DIR$/src/algorithms/svdWrapper.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/algorithms/tsUtils.py" afterPath="$PROJECT_DIR$/src/algorithms/tsUtils.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/data/generateARMA.py" afterPath="$PROJECT_DIR$/src/data/generateARMA.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/database/SqlImplementation.py" afterPath="$PROJECT_DIR$/src/database/SqlImplementation.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/models/TSModel.py" afterPath="$PROJECT_DIR$/src/models/TSModel.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/models/tsSVDModel.py" afterPath="$PROJECT_DIR$/src/models/tsSVDModel.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/tsUtils.py" afterPath="$PROJECT_DIR$/src/tsUtils.py" />
     </list>
     <ignored path="tslib.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -75,23 +35,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="600">
-      <file leaf-file-name="TestFW.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/TestFW.py">
+      <file leaf-file-name="plotResultsUpdateTime.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests_local/results/plotResultsUpdateTime.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2805">
-              <caret line="96" column="5" selection-start-line="96" selection-start-column="5" selection-end-line="96" selection-end-column="5" />
-              <folding>
-                <element signature="e#0#10#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="3696">
+              <caret line="114" column="26" selection-start-line="114" selection-start-column="26" selection-end-line="114" selection-end-column="26" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="plotResults.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/results/plotResults.py">
+      <file leaf-file-name="plothistograms.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests_local/results/plothistograms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
-              <caret line="4" column="67" selection-start-line="4" selection-start-column="67" selection-end-line="4" selection-end-column="67" />
+            <state relative-caret-position="726">
+              <caret line="24" column="47" selection-start-line="24" selection-start-column="47" selection-end-line="24" selection-end-column="47" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -99,13 +57,89 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="plothistograms.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/tests/results/plothistograms.py">
+      <file leaf-file-name="query8.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests_local/query8.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="429">
-              <caret line="13" column="52" selection-start-line="13" selection-start-column="52" selection-end-line="13" selection-end-column="52" />
+            <state relative-caret-position="-954">
+              <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="16" selection-end-column="12" />
               <folding>
-                <element signature="e#0#19#0" expanded="true" />
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UpdateTimeTest.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests_local/UpdateTimeTest.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="922">
+              <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="timescaleDBtest.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests_local/timescaleDBtest.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="996">
+              <caret line="68" column="83" selection-start-line="68" selection-start-column="83" selection-end-line="68" selection-end-column="83" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SqlImplementationTSDB.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/database/SqlImplementationTSDB.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="376">
+              <caret line="36" column="40" selection-start-line="36" selection-start-column="40" selection-end-line="36" selection-end-column="52" />
+              <folding>
+                <element signature="e#0#52#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="queries.sql" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests_local/queries.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="5" column="1" selection-start-line="2" selection-start-column="0" selection-end-line="5" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GenerateTS.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests_local/testdata/GenerateTS.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="805">
+              <caret line="90" column="25" selection-start-line="90" selection-start-column="25" selection-end-line="90" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TSPI.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/models/TSPI.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1135">
+              <caret line="220" column="20" selection-start-line="220" selection-start-column="20" selection-end-line="220" selection-end-column="20" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SqlImplementation.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/database/SqlImplementation.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="924">
+              <caret line="184" column="8" selection-start-line="184" selection-start-column="8" selection-end-line="184" selection-end-column="67" />
+              <folding>
+                <element signature="e#0#52#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -126,15 +160,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/tslib/src/data/generateHarmonics.py" />
-        <option value="$PROJECT_DIR$/tslib/src/data/generateTrend.py" />
-        <option value="$PROJECT_DIR$/tslib/src/data/generateARMA.py" />
-        <option value="$PROJECT_DIR$/tslib/src/models/tsALSModel.py" />
-        <option value="$PROJECT_DIR$/tests/testScriptSingleTimeseriesIncHybrid.py" />
-        <option value="$PROJECT_DIR$/tests/testScriptSingleTimeseriesInc.py" />
-        <option value="$PROJECT_DIR$/tests/testdata/TestFW.py" />
-        <option value="$PROJECT_DIR$/tslib/src/tsUtils.py" />
-        <option value="$PROJECT_DIR$/tests/tt.py" />
         <option value="$USER_HOME$/Downloads/rockgame.py" />
         <option value="$PROJECT_DIR$/tslib/src/hdf_util.py" />
         <option value="$PROJECT_DIR$/tests/TrainModel,py" />
@@ -153,19 +178,46 @@
         <option value="$PROJECT_DIR$/tslib/src/algorithms/svdWrapper.py" />
         <option value="$PROJECT_DIR$/tslib/src/models/tsSVDModel.py" />
         <option value="$PROJECT_DIR$/tests/testScriptSingleTimeseries.py" />
-        <option value="$PROJECT_DIR$/tests/TestFW.py" />
         <option value="$PROJECT_DIR$/tests/TrainModel.py" />
         <option value="$PROJECT_DIR$/tslib/src/models/TSModel.py" />
         <option value="$PROJECT_DIR$/tests/results/plotResults.py" />
         <option value="$PROJECT_DIR$/tests/results/plothistograms.py" />
+        <option value="$PROJECT_DIR$/tests/TestFW.py" />
+        <option value="$PROJECT_DIR$/tests_local/TrainModel.py" />
+        <option value="$PROJECT_DIR$/src/data/generateARMA.py" />
+        <option value="$PROJECT_DIR$/tests_local/Var_exp.py" />
+        <option value="$PROJECT_DIR$/tests_local/Var_exp2.py" />
+        <option value="$PROJECT_DIR$/tests_local/TestFW.py" />
+        <option value="$PROJECT_DIR$/src/algorithms/tsUtils.py" />
+        <option value="$PROJECT_DIR$/tests_local/testScriptSingleTimeseries.py" />
+        <option value="$PROJECT_DIR$/tests_local/queryTestRange.py" />
+        <option value="$PROJECT_DIR$/tests_local/results/plotResults.py" />
+        <option value="$PROJECT_DIR$/tests_local/Range_query_test.py" />
+        <option value="$PROJECT_DIR$/tests_local/var_exp3.py" />
+        <option value="$PROJECT_DIR$/tests_local/var_exp_4.py" />
+        <option value="$PROJECT_DIR$/tests_local/var_exp5.py" />
+        <option value="$PROJECT_DIR$/src/tsUtils.py" />
+        <option value="$PROJECT_DIR$/src/models/tsSVDModel.py" />
+        <option value="$PROJECT_DIR$/src/algorithms/svdWrapper.py" />
+        <option value="$PROJECT_DIR$/tests_local/benData.py" />
+        <option value="$PROJECT_DIR$/src/database/SqlImplementation.py" />
+        <option value="$PROJECT_DIR$/src/models/TSModel.py" />
+        <option value="$PROJECT_DIR$/src/models/TSPI.py" />
+        <option value="$PROJECT_DIR$/tests_local/results/plotResultsUpdateTime.py" />
+        <option value="$PROJECT_DIR$/tests_local/results/plothistograms.py" />
+        <option value="$PROJECT_DIR$/tests_local/testdata/GenerateTS.py" />
+        <option value="$PROJECT_DIR$/tests_local/query8.py" />
+        <option value="$PROJECT_DIR$/tests_local/UpdateTimeTest.py" />
+        <option value="$PROJECT_DIR$/src/database/SqlImplementation_timescaledb.py" />
+        <option value="$PROJECT_DIR$/src/database/SqlImplementationTSDB.py" />
+        <option value="$PROJECT_DIR$/tests_local/timescaleDBtest.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-13" />
-    <option name="y" value="-13" />
-    <option name="width" value="3026" />
-    <option name="height" value="1946" />
+    <option name="x" value="-11" />
+    <option name="width" value="3022" />
+    <option name="height" value="1931" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -192,6 +244,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -200,107 +254,184 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tslib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tslib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tslib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tslib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tslib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tslib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tslib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tslib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="database" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tslib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tslib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="algorithms" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Time Series Project/tslib2" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Abdul\Dropbox (MIT)\GitHub\tslib\src\database" />
+      <recent name="C:\Users\Abdul\Dropbox (MIT)\Time Series Project\tslib2\tests" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Abdul\Dropbox (MIT)\Time Series Project\tslib2\tests" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Abdul\Dropbox (MIT)\Time Series Project\tslib2\tests" />
-    </key>
   </component>
-  <component name="RunManager" selected="Python.plothistograms (1)">
-    <configuration default="false" name="TrainModel" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python.timescaleDBtest">
+    <configuration default="false" name="benData" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="C:\Users\Abdul\AppData\Local\Programs\Python\Python27\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests_local" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="tslib" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/TrainModel.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests_local/benData.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <method />
     </configuration>
-    <configuration default="false" name="plothistograms (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration default="false" name="plothistograms" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests_local/results" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="tslib" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests_local/results/plothistograms.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="GenerateTS" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="C:\Users\Abdul\AppData\Local\Programs\Python\Python27\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/results" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests_local/testdata" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="tslib" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/results/plothistograms.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests_local/testdata/GenerateTS.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <method />
     </configuration>
-    <configuration default="false" name="TestFW" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration default="false" name="query8" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="C:\Users\Abdul\AppData\Local\Programs\Python\Python27\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests_local" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="tslib" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/TestFW.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests_local/query8.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <method />
     </configuration>
-    <configuration default="false" name="testScriptSingleTimeseries" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration default="false" name="timescaleDBtest" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="C:\Users\Abdul\AppData\Local\Programs\Python\Python27\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests_local" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="tslib" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/testScriptSingleTimeseries.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <method />
-    </configuration>
-    <configuration default="false" name="plotResults" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="C:\Users\Abdul\AppData\Local\Programs\Python\Python27\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/results" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="tslib" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/results/plotResults.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests_local/timescaleDBtest.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <method />
@@ -443,19 +574,19 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.TrainModel" />
-      <item index="1" class="java.lang.String" itemvalue="Python.plothistograms (1)" />
-      <item index="2" class="java.lang.String" itemvalue="Python.TestFW" />
-      <item index="3" class="java.lang.String" itemvalue="Python.testScriptSingleTimeseries" />
-      <item index="4" class="java.lang.String" itemvalue="Python.plotResults" />
+      <item index="0" class="java.lang.String" itemvalue="Python.benData" />
+      <item index="1" class="java.lang.String" itemvalue="Python.plothistograms" />
+      <item index="2" class="java.lang.String" itemvalue="Python.GenerateTS" />
+      <item index="3" class="java.lang.String" itemvalue="Python.query8" />
+      <item index="4" class="java.lang.String" itemvalue="Python.timescaleDBtest" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.plothistograms (1)" />
-        <item index="1" class="java.lang.String" itemvalue="Python.plotResults" />
-        <item index="2" class="java.lang.String" itemvalue="Python.TrainModel" />
-        <item index="3" class="java.lang.String" itemvalue="Python.TestFW" />
-        <item index="4" class="java.lang.String" itemvalue="Python.testScriptSingleTimeseries" />
+        <item index="0" class="java.lang.String" itemvalue="Python.timescaleDBtest" />
+        <item index="1" class="java.lang.String" itemvalue="Python.query8" />
+        <item index="2" class="java.lang.String" itemvalue="Python.GenerateTS" />
+        <item index="3" class="java.lang.String" itemvalue="Python.plothistograms" />
+        <item index="4" class="java.lang.String" itemvalue="Python.benData" />
       </list>
     </recent_temporary>
   </component>
@@ -485,39 +616,41 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-13" y="-13" width="3026" height="1946" extended-state="6" />
-    <editor active="false" />
+    <frame x="-11" y="0" width="3022" height="1931" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17726658" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25677508" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947624" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24400738" sideWeight="0.51355016" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947624" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947624" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947624" sideWeight="0.49594045" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24400738" sideWeight="0.48644987" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947624" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947624" sideWeight="0.49729365" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3995128" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32947624" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21924482" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3995128" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947624" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32947624" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947624" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947624" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21924482" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947624" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2496617" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947624" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947624" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33800244" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947624" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.11705007" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -539,178 +672,338 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="10" />
+      <option name="time" value="14" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tests/testScriptSingleTimeseries.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5247">
-          <caret line="159" column="4" selection-start-line="159" selection-start-column="4" selection-end-line="159" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/testScriptSingleTimeseriesIncHybrid.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5610">
-          <caret line="171" column="26" selection-start-line="171" selection-start-column="26" selection-end-line="171" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tslib/src/tsUtils.py" />
+    <entry file="file://$PROJECT_DIR$/tests/WriteModel.py" />
     <entry file="file://$PROJECT_DIR$/tslib/src/models/tsSVDModel.py" />
+    <entry file="file://$PROJECT_DIR$/tslib/src/tsUtils.py" />
     <entry file="file://$PROJECT_DIR$/tslib/src/models/TSModel.py" />
-    <entry file="file://$PROJECT_DIR$/tests/TestFW.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="726">
-          <caret line="22" column="16" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/testScriptSingleTimeseriesIncHybrid.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5247">
-          <caret line="160" column="30" selection-start-line="160" selection-start-column="30" selection-end-line="160" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tslib/src/tsUtils.py" />
-    <entry file="file://$PROJECT_DIR$/tslib/src/models/tsSVDModel.py" />
-    <entry file="file://$PROJECT_DIR$/tslib/src/algorithms/svdWrapper.py" />
-    <entry file="file://$PROJECT_DIR$/tests/testScriptSingleTimeseriesInc.py">
+    <entry file="file://$PROJECT_DIR$/tests/TrainModel.py" />
+    <entry file="file://$PROJECT_DIR$/tests/results/plotResults.py" />
+    <entry file="file://$PROJECT_DIR$/tests/results/plothistograms.py" />
+    <entry file="file://$PROJECT_DIR$/tests/TestFW.py" />
+    <entry file="file://$PROJECT_DIR$/src/database/RepositoryInterface.py" />
+    <entry file="file://$PROJECT_DIR$/tests_local/BMmodel.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/testScriptSingleTimeseriesIncHybrid.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8283">
-          <caret line="252" column="0" selection-start-line="252" selection-start-column="0" selection-end-line="272" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tslib/src/tsUtils.py" />
     <entry file="file://$PROJECT_DIR$/tests/testScriptSingleTimeseries.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="924">
+          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python27/Lib/site-packages/sklearn/metrics/regression.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1898">
+          <caret line="493" column="37" selection-start-line="493" selection-start-column="37" selection-end-line="493" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python27/Lib/site-packages/numpy/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests_local/TestFWOnline.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="33">
+          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="16" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/generateARMA.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests_local/TrainModel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests_local/Var_exp2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="105" column="15" selection-start-line="0" selection-start-column="0" selection-end-line="189" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests_local/Var_exp.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="109" column="9" selection-start-line="105" selection-start-column="15" selection-end-line="109" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/algorithms/tsUtils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2145">
+          <caret line="68" column="0" selection-start-line="68" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests_local/TestFW.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3630">
+          <caret line="122" column="30" selection-start-line="122" selection-start-column="30" selection-end-line="122" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests_local/testScriptSingleTimeseries.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3960">
+          <caret line="120" column="78" selection-start-line="120" selection-start-column="78" selection-end-line="120" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests_local/queryTestRange.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="24" column="8" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests_local/queryTest2.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/.PyCharm2016.2/system/python_stubs/343686690/numpy/core/multiarray.py">
+    <entry file="file://$PROJECT_DIR$/tests_local/queryTestV.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="348">
-          <caret line="560" column="4" selection-start-line="560" selection-start-column="4" selection-end-line="560" selection-end-column="4" />
+        <state relative-caret-position="363">
+          <caret line="11" column="19" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="19" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/tsSVDModel.py" />
-    <entry file="file://$PROJECT_DIR$/tslib/src/data/generateTrend.py" />
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/site-packages/numpy/lib/nanfunctions.py">
+    <entry file="file://$PROJECT_DIR$/tests_local/results/queriesvsNoR_var.csv">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="149" column="4" selection-start-line="149" selection-start-column="4" selection-end-line="149" selection-end-column="4" />
+        <state relative-caret-position="0">
+          <caret line="0" column="32" selection-start-line="0" selection-start-column="32" selection-end-line="0" selection-end-column="32" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tslib/src/models/tsALSModel.py" />
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python27/Lib/site-packages/numpy/lib/nanfunctions.py">
+    <entry file="file://$PROJECT_DIR$/tests_local/results/range_query_var.csv">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="300" column="22" selection-start-line="300" selection-start-column="22" selection-end-line="300" selection-end-column="22" />
+        <state relative-caret-position="0">
+          <caret line="0" column="31" selection-start-line="0" selection-start-column="31" selection-end-line="0" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests_local/Range_query_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2145">
+          <caret line="65" column="13" selection-start-line="65" selection-start-column="13" selection-end-line="65" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests_local/var_exp_4.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3003">
+          <caret line="91" column="13" selection-start-line="91" selection-start-column="13" selection-end-line="91" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests_local/var_exp3.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2772">
+          <caret line="84" column="30" selection-start-line="84" selection-start-column="30" selection-end-line="84" selection-end-column="30" />
         </state>
       </provider>
     </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydev_run_in_console.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="727">
-          <caret line="70" column="0" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
+        <state relative-caret-position="400">
+          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/testScriptSingleTimeseriesIncHybrid.py">
+    <entry file="file://$PROJECT_DIR$/src/tsUtils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5610">
-          <caret line="171" column="26" selection-start-line="171" selection-start-column="26" selection-end-line="171" selection-end-column="26" />
+        <state relative-caret-position="2211">
+          <caret line="70" column="59" selection-start-line="70" selection-start-column="59" selection-end-line="70" selection-end-column="59" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/testScriptSingleTimeseriesInc.py">
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python27/Lib/site-packages/pandas/core/tools/datetimes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="707">
-          <caret line="252" column="51" selection-start-line="252" selection-start-column="51" selection-end-line="252" selection-end-column="51" />
+        <state relative-caret-position="-755">
+          <caret line="401" column="43" selection-start-line="401" selection-start-column="36" selection-end-line="401" selection-end-column="43" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/tt.py" />
-    <entry file="file://$USER_HOME$/Downloads/rockgame.py" />
-    <entry file="file://$PROJECT_DIR$/tests/TrainModel,py" />
-    <entry file="file://$PROJECT_DIR$/tslib/src/data/generateHarmonics.py" />
-    <entry file="file://$PROJECT_DIR$/tslib/src/data/generateARMA.py" />
-    <entry file="file://$PROJECT_DIR$/tests/testdata/GenerateTS.py">
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python27/Lib/site-packages/seaborn/matrix.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="92" column="22" selection-start-line="92" selection-start-column="22" selection-end-line="92" selection-end-column="22" />
+        <state relative-caret-position="928">
+          <caret line="350" column="24" selection-start-line="350" selection-start-column="24" selection-end-line="350" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/w.json" />
-    <entry file="file://$PROJECT_DIR$/tests/w2.json" />
-    <entry file="file://$PROJECT_DIR$/tests/queryTest.py" />
-    <entry file="file://$PROJECT_DIR$/tests/plothistograms.py" />
-    <entry file="file://$PROJECT_DIR$/tests/queryTest2.py" />
-    <entry file="file://$PROJECT_DIR$/tslib/src/models/TSmodelc.pyx" />
-    <entry file="file://$PROJECT_DIR$/tslib/src/hdf_util.py" />
-    <entry file="file://$PROJECT_DIR$/tslib/src/algorithms/svdWrapperC.pyx" />
-    <entry file="file://$PROJECT_DIR$/tslib/src/models/tsUtilsC.pyx" />
-    <entry file="file://$PROJECT_DIR$/tslib/src/models/tsSVDModelc.pyx" />
-    <entry file="file://$PROJECT_DIR$/tslib/src/algorithms/svdWrapper.py" />
-    <entry file="file://$PROJECT_DIR$/tests/BMmodel.py" />
-    <entry file="file://$PROJECT_DIR$/tests/hdf5ToCSV.py" />
-    <entry file="file://$PROJECT_DIR$/tests/WriteModel.py" />
-    <entry file="file://$PROJECT_DIR$/tslib/src/models/tsSVDModel.py" />
-    <entry file="file://$PROJECT_DIR$/tslib/src/tsUtils.py" />
-    <entry file="file://$PROJECT_DIR$/tests/testScriptSingleTimeseries.py">
+    <entry file="file://$PROJECT_DIR$/src/models/tsSVDModel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="82" column="10" selection-start-line="82" selection-start-column="10" selection-end-line="82" selection-end-column="10" />
+        <state relative-caret-position="381">
+          <caret line="199" column="61" selection-start-line="199" selection-start-column="44" selection-end-line="199" selection-end-column="61" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tslib/src/models/TSModel.py" />
-    <entry file="file://$PROJECT_DIR$/tests/TrainModel.py" />
-    <entry file="file://$PROJECT_DIR$/tests/TestFW.py">
+    <entry file="file://$PROJECT_DIR$/src/algorithms/svdWrapper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2805">
-          <caret line="96" column="5" selection-start-line="96" selection-start-column="5" selection-end-line="96" selection-end-column="5" />
+        <state relative-caret-position="612">
+          <caret line="54" column="34" selection-start-line="54" selection-start-column="34" selection-end-line="54" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/database/DBInterface.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1373">
+          <caret line="64" column="8" selection-start-line="64" selection-start-column="8" selection-end-line="64" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests_local/var_exp5.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3927">
+          <caret line="119" column="111" selection-start-line="119" selection-start-column="93" selection-end-line="119" selection-end-column="111" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/TSModel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1551">
+          <caret line="51" column="27" selection-start-line="48" selection-start-column="8" selection-end-line="48" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests_local/benData.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="627">
+          <caret line="20" column="41" selection-start-line="20" selection-start-column="40" selection-end-line="20" selection-end-column="41" />
           <folding>
-            <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#0#19#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/results/plotResults.py">
+    <entry file="file://$PROJECT_DIR$/tests_local/results/plotResults.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="4" column="67" selection-start-line="4" selection-start-column="67" selection-end-line="4" selection-end-column="67" />
+        <state relative-caret-position="297">
+          <caret line="11" column="30" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests_local/results/plotResultsUpdateTime.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3696">
+          <caret line="114" column="26" selection-start-line="114" selection-start-column="26" selection-end-line="114" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests_local/results/plothistograms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="726">
+          <caret line="24" column="47" selection-start-line="24" selection-start-column="47" selection-end-line="24" selection-end-column="47" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/results/plothistograms.py">
+    <entry file="file://$PROJECT_DIR$/tests_local/queries.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="13" column="52" selection-start-line="13" selection-start-column="52" selection-end-line="13" selection-end-column="52" />
+        <state relative-caret-position="165">
+          <caret line="5" column="1" selection-start-line="2" selection-start-column="0" selection-end-line="5" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests_local/testdata/GenerateTS.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="805">
+          <caret line="90" column="25" selection-start-line="90" selection-start-column="25" selection-end-line="90" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/database/SqlImplementation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="924">
+          <caret line="184" column="8" selection-start-line="184" selection-start-column="8" selection-end-line="184" selection-end-column="67" />
           <folding>
-            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#0#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/TSPI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1135">
+          <caret line="220" column="20" selection-start-line="220" selection-start-column="20" selection-end-line="220" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/database/SqlImplementation_timescaledb.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="10" column="24" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests_local/UpdateTimeTest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="922">
+          <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests_local/query8.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-954">
+          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="16" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests_local/timescaleDBtest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="996">
+          <caret line="68" column="83" selection-start-line="68" selection-start-column="83" selection-end-line="68" selection-end-column="83" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/database/SqlImplementationTSDB.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="376">
+          <caret line="36" column="40" selection-start-line="36" selection-start-column="40" selection-end-line="36" selection-end-column="52" />
+          <folding>
+            <element signature="e#0#52#0" expanded="true" />
           </folding>
         </state>
       </provider>

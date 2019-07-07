@@ -8,7 +8,8 @@ import numpy as np
 import pandas as pd
 from tslib.src.algorithms.svdWrapper import SVDWrapper as SVD
 from tslib.src import tsUtils
-
+from sklearn.metrics import r2_score
+from sklearn.linear_model import Lasso as Lin
 class SVDModel(object):
 
     # seriesToPredictKey:       (string) the time series of interest (key)
@@ -22,7 +23,7 @@ class SVDModel(object):
     #                               the time series in 'otherSeriesKeysArray' will include the latest data point.
     #                               Note: the time series of interest (seriesToPredictKey) will never include 
     #                               the latest data-points for prediction
-    def __init__(self, seriesToPredictKey, kSingularValuesToKeep, N, M, probObservation=1.0, svdMethod='numpy', otherSeriesKeysArray=[], includePastDataOnly=True, start = 0, TimesUpdated = 0, TimesReconstructed =0 ):
+    def __init__(self, seriesToPredictKey, kSingularValuesToKeep, N, M, probObservation=1.0, svdMethod='numpy', otherSeriesKeysArray=[], includePastDataOnly=True, start = 0, TimesUpdated = 0, TimesReconstructed =0, SSVT = False ):
 
         self.seriesToPredictKey = seriesToPredictKey
         self.otherSeriesKeysArray = otherSeriesKeysArray
@@ -45,9 +46,10 @@ class SVDModel(object):
         self.Vkw = None
         self.skw = None
         self.p = probObservation
-
+        self.model_score = 0
         self.weights = None
-
+        self.SSVT = SSVT
+        self.soft_threshold = 0
     # run a least-squares regression of the last row of self.matrix and all other rows of self.matrix
     # sets and returns the weights
     # DO NOT call directly
@@ -88,9 +90,18 @@ class SVDModel(object):
 
         svdMod = SVD(newMatrix, method='numpy')
         (self.skw, self.Ukw, self.Vkw) = svdMod.reconstructMatrix(self.kSingularValues, returnMatrix=False)
+        soft_threshold = 0
 
-        newMatrixPInv = tsUtils.pInverseMatrixFromSVD(self.skw, self.Ukw, self.Vkw, probability=self.p)
-        self.weights = np.dot(newMatrixPInv.T, self.lastRowObservations.T)
+        if self.SSVT: soft_threshold = svdMod.next_sigma
+
+        matrix = tsUtils.matrixFromSVD(self.skw, self.Ukw, self.Vkw, soft_threshold=soft_threshold)
+        # lin_model = Lin()
+        # lin_model.fit(matrix.T, matrix[-1,:])
+        # self.weights = lin_model.coef_
+
+        newMatrixPInv = tsUtils.pInverseMatrixFromSVD(self.skw, self.Ukw, self.Vkw,soft_threshold=soft_threshold)
+        self.weights = np.dot(newMatrixPInv.T, self.matrix[-1,:].T)
+        self.model_score = r2_score( self.matrix[-1,:],np.dot(matrix.T,self.weights))
 
     # return the imputed matrix
     def denoisedDF(self):
@@ -109,9 +120,10 @@ class SVDModel(object):
 
         return pd.DataFrame(data=dataDict)
 
+
     def denoisedTS(self, ind, range = True):
 
-        NewColsDenoised = tsUtils.matrixFromSVD(self.sk, self.Uk, self.Vk, probability=self.p).flatten(1)
+        NewColsDenoised = self.matrix.flatten('F')
         if range:
             assert len(ind) == 2
             return NewColsDenoised[ind[0]:ind[1]]
@@ -120,13 +132,13 @@ class SVDModel(object):
             return NewColsDenoised[ind]
 
 
-    def denoisedDFNew(self,D,updateMethod = 'folding-in', missingValueFill = True):
-        assert (len(D) % self.N == 0)
-        p = len(D)/self.N
-        self.updateSVD(D,updateMethod)
-        NewColsDenoised = tsUtils.matrixFromSVD(self.sk, self.Uk, self.Vk[-p:,:], probability=self.p)
-
-        return NewColsDenoised.flatten(1)
+    # def denoisedDFNew(self,D,updateMethod = 'folding-in', missingValueFill = True):
+    #     assert (len(D) % self.N == 0)
+    #     p = len(D)/self.N
+    #     self.updateSVD(D,updateMethod)
+    #     NewColsDenoised = tsUtils.matrixFromSVD(self.sk, self.Uk, self.Vk[-p:,:], probability=self.p)
+    #
+    #     return NewColsDenoised.flatten(1)
 
 
     # this internal method assigns the data (provided to fit()) to the class variables to help with computations
@@ -185,11 +197,10 @@ class SVDModel(object):
         # now produce a thresholdedthresholded/de-noised matrix. this will over-write the original data matrix
         svdMod = SVD(self.matrix, method='numpy')
         (self.sk, self.Uk, self.Vk) = svdMod.reconstructMatrix(self.kSingularValues, returnMatrix=False)
-        self.matrix = tsUtils.matrixFromSVD(self.sk, self.Uk, self.Vk, probability=self.p)
+        if self.SSVT: self.soft_threshold = svdMod.next_sigma
         # set weights
+        self.matrix = tsUtils.matrixFromSVD(self.sk, self.Uk, self.Vk, self.soft_threshold,probability=self.p)
         self._computeWeights()
-
-
 
     def updateSVD(self,D, method = 'folding-in', missingValueFill = True):
         assert (len(D) % self.N == 0)
@@ -227,7 +238,7 @@ class SVDModel(object):
             raise ValueError
         self.TimesUpdated +=1
 
-        newMatrixPInv = tsUtils.pInverseMatrixFromSVD(self.skw, self.Ukw, self.Vkw, probability=self.p)
+        newMatrixPInv = tsUtils.pInverseMatrixFromSVD(self.skw, self.Ukw, self.Vkw,soft_threshold=self.soft_threshold, probability=self.p)
         self.lastRowObservations = np.append(self.lastRowObservations,D[-1,:])
         self.weights = np.dot(newMatrixPInv.T, self.lastRowObservations.T)
 
@@ -281,30 +292,8 @@ class SVDModel(object):
         newDataArray[indexArray:] = predictKeyToSeriesDFNew[self.seriesToPredictKey][-1*(self.N - 1):].values
 
         # dot product
-        return np.dot(self.weights, newDataArray)
-
-
-####################################################
-# Testing
-
-# seriesToPredictKey = 'a1'
-# kSingularValuesToKeep = 4
-# N = 4
-# M = 5
-# p = 1.0
-# modelType = 'svd'
-# svdMethod='numpy'
-# otherSeriesKeysArray=['a2', 'a3']
-# includePastDataOnly = False
-
-# keytoSeriesDictionary = {'a1': np.random.normal(0, 1, N*M), 'a2': np.random.normal(0, 1, N*M), 'a3':np.random.normal(0, 1, N*M)}
-# df = pd.DataFrame(data=keytoSeriesDictionary)
-# mod = SVDModel(seriesToPredictKey, kSingularValuesToKeep, N, M, probObservation=1.0, modelType= modelType, svdMethod='numpy', otherSeriesKeysArray=otherSeriesKeysArray, includePastDataOnly=includePastDataOnly)
-# mod.fit(df)
-
-# # predict
-# new = {'a1': np.random.normal(0, 1, N), 'a2': np.random.normal(0, 1, N), 'a3':np.random.normal(0, 1, N)}
-# dfNew = pd.DataFrame(data=new)
-# res = mod.predict(dfNew, bypassChecks=False)
+        # newDataArray[np.isnan(newDataArray)] = 0
+        projection = newDataArray#np.dot(self.Ukw, np.dot(newDataArray, self.Ukw).T)
+        return np.dot(self.weights, projection)
 
 
