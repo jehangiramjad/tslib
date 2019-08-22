@@ -39,7 +39,7 @@ class SVDModel(object):
         self.Uk = None
         self.Vk = None
         self.sk = None
-        self.matrix = None
+        self.matrix = None # this matrix = Uk.sk.Vk
         self.lastRowObservations = None
         self.Ukw = None
         self.Vkw = None
