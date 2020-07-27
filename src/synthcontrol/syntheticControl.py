@@ -61,7 +61,7 @@ class RobustSyntheticControl(object):
     #                               If longer than 1, then the most recent point will be used (for each series)
     def predict(self, otherKeysToSeriesDFNew):
         prediction = np.dot(self.model.weights, otherKeysToSeriesDFNew[self.otherSeriesKeysArray].T)
-    	return prediction
+        return prediction
 
     # return the synthetic control weights
     def getControl():
